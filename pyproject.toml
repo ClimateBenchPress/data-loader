@@ -1,0 +1,17 @@
+[project]
+name = "climatebenchpress.data_loader"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "cf-xarray~=0.10",
+    "dask~=2024.12",
+    "fsspec~=2024.12",
+    "xarray~=2025.1",
+    "zarr~=2.18",
+]
+
+[dependency-groups]
+dev = ["ipykernel~=6.29", "ruff~=0.8"]
+data = ["gcsfs~=2024.12", "pandas~=2.2"]
