@@ -39,4 +39,6 @@ if not standardized.exists():
         ds.to_zarr(standardized, encoding=dict(), compute=False).compute()
 
 ds = xr.open_dataset(standardized, chunks=dict())
-print(ds.cf)
+
+for v, da in ds.items():
+    print(f"- {v}: {da.dims}")
