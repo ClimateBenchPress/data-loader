@@ -28,7 +28,7 @@ if not download.exists():
     ds = xr.open_zarr(mapper, consolidated=True)
 
     with ProgressBar():
-        ds.to_zarr(download, compute=False).compute()
+        ds.to_zarr(download, encoding=dict(), compute=False).compute()
 
 standardized = Path("standardized.zarr")
 if not standardized.exists():
@@ -36,4 +36,7 @@ if not standardized.exists():
     ds = climatebenchpress.data_loader.canonicalize_dataset(ds)
 
     with ProgressBar():
-        ds.to_zarr(standardized, compute=False).compute()
+        ds.to_zarr(standardized, encoding=dict(), compute=False).compute()
+
+ds = xr.open_dataset(standardized, chunks=dict())
+print(ds.cf)
