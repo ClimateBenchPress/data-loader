@@ -5,11 +5,11 @@ import fsspec
 import pandas as pd
 import xarray as xr
 
-from dask.diagnostics import ProgressBar
 
+name = Path(__file__).stem
+path = climatebenchpress.data_loader.get_dataset_path(name)
 
-download = Path("download.zarr")
-if not download.exists():
+if not path.exists():
     df = pd.read_csv(
         "https://storage.googleapis.com/cmip6/cmip6-zarr-consolidated-stores.csv"
     )
@@ -27,18 +27,9 @@ if not download.exists():
 
     ds = xr.open_zarr(mapper, consolidated=True)
 
-    with ProgressBar():
-        ds.to_zarr(download, encoding=dict(), compute=False).compute()
+    climatebenchpress.data_loader.download_canonicalized_dataset(ds, name)
 
-standardized = Path("standardized.zarr")
-if not standardized.exists():
-    ds = xr.open_dataset(download, chunks=dict())
-    ds = climatebenchpress.data_loader.canonicalize_dataset(ds)
-
-    with ProgressBar():
-        ds.to_zarr(standardized, encoding=dict(), compute=False).compute()
-
-ds = xr.open_dataset(standardized, chunks=dict())
+ds = xr.open_dataset(path, chunks=dict())
 
 for v, da in ds.items():
     print(f"- {v}: {da.dims}")
