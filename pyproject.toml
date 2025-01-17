@@ -13,5 +13,15 @@ dependencies = [
 ]
 
 [dependency-groups]
-dev = ["ipykernel~=6.29", "ruff~=0.8"]
+dev = ["ipykernel~=6.29", "mypy~=1.14", "pandas-stubs~=2.2", "ruff~=0.8"]
 data = ["gcsfs~=2024.12", "pandas~=2.2"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"climatebenchpress.compressor" = ["py.typed"]
+
+[[tool.mypy.overrides]]
+module = ["fsspec.*"]
+follow_untyped_imports = true
