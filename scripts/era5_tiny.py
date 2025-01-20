@@ -27,7 +27,7 @@ if not path.exists():
     ds.time.attrs["standard_name"] = "time"
     climatebenchpress.data_loader.download_canonicalized_dataset(ds, name)
 
-ds = xr.open_dataset(path, chunks=dict())
+ds = xr.open_dataset(path, chunks=dict(), engine="zarr")
 
 for v, da in ds.items():
     print(f"- {v}: {da.dims}")

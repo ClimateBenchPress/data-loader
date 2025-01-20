@@ -73,7 +73,7 @@ def download_canonicalized_dataset(
 
     standardized = datasets / name / "standardized.zarr"
     if not standardized.exists():
-        ds = xr.open_dataset(download, chunks=dict())
+        ds = xr.open_dataset(download, chunks=dict(), engine="zarr")
         ds = canonicalize_dataset(ds)
 
         with ProgressBar():
