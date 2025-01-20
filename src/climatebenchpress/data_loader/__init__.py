@@ -3,8 +3,11 @@ from typing import Optional
 
 import cf_xarray as cfxr
 import xarray as xr
-
 from dask.diagnostics.progress import ProgressBar
+
+from .cmip6 import get_cmip6_dataset
+
+__all__ = ["get_cmip6_dataset", "get_dataset_path", "download_canonicalized_dataset"]
 
 
 _ENSEMBLE_CRITERIA = dict(
