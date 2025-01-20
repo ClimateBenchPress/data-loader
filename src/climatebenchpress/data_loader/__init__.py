@@ -40,13 +40,13 @@ def _ensure_coordinate(da: xr.DataArray, c: str) -> tuple[xr.DataArray, str]:
 
 
 def canonicalize_variable(da: xr.DataArray) -> xr.DataArray:
-    da, time = _ensure_coordinate(da, "time")
-    da, longitude = _ensure_coordinate(da, "longitude")
-    da, latitude = _ensure_coordinate(da, "latitude")
-    da, vertical = _ensure_coordinate(da, "vertical")
     da, realization = _ensure_coordinate(da, "realization")
+    da, time = _ensure_coordinate(da, "time")
+    da, vertical = _ensure_coordinate(da, "vertical")
+    da, latitude = _ensure_coordinate(da, "latitude")
+    da, longitude = _ensure_coordinate(da, "longitude")
 
-    return da.transpose(time, longitude, latitude, vertical, realization)
+    return da.transpose(realization, time, vertical, latitude, longitude)
 
 
 def canonicalize_dataset(ds: xr.Dataset):
