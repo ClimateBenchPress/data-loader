@@ -1,3 +1,5 @@
+__all__ = ["get_cmip6_dataset", "get_dataset_path", "download_canonicalized_dataset"]
+
 from pathlib import Path
 from typing import Optional
 
@@ -6,9 +8,6 @@ import xarray as xr
 from dask.diagnostics.progress import ProgressBar
 
 from .cmip6 import get_cmip6_dataset
-
-__all__ = ["get_cmip6_dataset", "get_dataset_path", "download_canonicalized_dataset"]
-
 
 _ENSEMBLE_CRITERIA = dict(
     standard_name=("realization",),
