@@ -1,10 +1,10 @@
 import cf_xarray as cfxr
 
-_ENSEMBLE_CRITERIA = dict(
-    standard_name=("realization",),
-    axis=("E",),
-    cartesian_axis=("E",),
-    grads_dim=("e",),
+_ENSEMBLE_CRITERIA: dict[str, str] = dict(
+    standard_name="realization",
+    axis="E",
+    cartesian_axis="E",
+    grads_dim="e",
 )
 
 cfxr.options.set_options(
