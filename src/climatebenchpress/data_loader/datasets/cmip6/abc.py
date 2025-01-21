@@ -10,6 +10,9 @@ from ..abc import Dataset
 
 
 class Cmip6Dataset(Dataset):
+    model_id: str
+    ssp_id: str
+
     @staticmethod
     def open_with(model_id: str, ssp_id: str) -> xr.Dataset:
         df = Cmip6Dataset.get_stores()

@@ -8,16 +8,18 @@ from ... import (
     open_downloaded_tiny_canonicalized_dataset,
 )
 
-CMIP6_MODEL_ID = "CanESM5"
-SSP_ID = "ssp585"
-
 
 class Cmip6CanEsm5Dataset(Cmip6Dataset):
     name = "cmip6-canesm5"
 
+    model_id = "CanESM5"
+    ssp_id = "ssp585"
+
     @staticmethod
     def open() -> xr.Dataset:
-        return Cmip6Dataset.open_with(CMIP6_MODEL_ID, SSP_ID)
+        return Cmip6Dataset.open_with(
+            Cmip6CanEsm5Dataset.model_id, Cmip6CanEsm5Dataset.ssp_id
+        )
 
 
 if __name__ == "__main__":
