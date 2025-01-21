@@ -14,8 +14,10 @@ from . import canon, datasets
 from .datasets.abc import Dataset
 
 
-def open_downloaded_canonicalized_dataset(cls: type[Dataset]) -> xr.Dataset:
-    datasets = Path("datasets")
+def open_downloaded_canonicalized_dataset(
+    cls: type[Dataset], basepath: Path = Path()
+) -> xr.Dataset:
+    datasets = basepath / "datasets"
 
     download = datasets / cls.name / "download.zarr"
     if not download.exists():
@@ -33,8 +35,10 @@ def open_downloaded_canonicalized_dataset(cls: type[Dataset]) -> xr.Dataset:
     return xr.open_dataset(standardized, chunks=dict(), engine="zarr")
 
 
-def open_downloaded_tiny_canonicalized_dataset(cls: type[Dataset]) -> xr.Dataset:
-    datasets = Path("datasets")
+def open_downloaded_tiny_canonicalized_dataset(
+    cls: type[Dataset], basepath: Path = Path()
+) -> xr.Dataset:
+    datasets = basepath / "datasets"
 
     huge_download = datasets / cls.name / "download.zarr"
     tiny_standardized = datasets / f"{cls.name}-tiny" / "standardized.zarr"
