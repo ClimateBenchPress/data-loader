@@ -1,84 +1,63 @@
-__all__ = ["get_cmip6_dataset", "get_dataset_path", "download_canonicalized_dataset"]
+__all__ = [
+    "canon",
+    "datasets",
+    "open_downloaded_canonicalized_dataset",
+    "open_downloaded_tiny_canonicalized_dataset",
+]
 
 from pathlib import Path
-from typing import Optional
 
-import cf_xarray as cfxr
 import xarray as xr
 from dask.diagnostics.progress import ProgressBar
 
-from .cmip6 import get_cmip6_dataset
-
-_ENSEMBLE_CRITERIA = dict(
-    standard_name=("realization",),
-    axis=("E",),
-    cartesian_axis=("E",),
-    grads_dim=("e",),
-)
-
-cfxr.options.set_options(
-    custom_criteria=dict(
-        realization=_ENSEMBLE_CRITERIA,
-        E=_ENSEMBLE_CRITERIA,
-    )
-)
+from . import canon, datasets
+from .datasets.abc import Dataset
 
 
-_ENSEMBLE_ATTRS = dict(
-    axis="E",
-    standard_name="realization",
-)
-_ATTRS = {**cfxr.accessor.ATTRS, **dict(realization=_ENSEMBLE_ATTRS, E=_ENSEMBLE_ATTRS)}
+def open_downloaded_canonicalized_dataset(cls: type[Dataset]) -> xr.Dataset:
+    datasets = Path("datasets")
 
-
-def _ensure_coordinate(da: xr.DataArray, c: str) -> tuple[xr.DataArray, str]:
-    if c in da.cf.coordinates:
-        return (da, da.cf[c].name)
-
-    da2 = da.expand_dims(c)
-    da2[c].attrs.update(_ATTRS[c])
-
-    return (da2, c)
-
-
-def canonicalize_variable(da: xr.DataArray) -> xr.DataArray:
-    da, realization = _ensure_coordinate(da, "realization")
-    da, time = _ensure_coordinate(da, "time")
-    da, vertical = _ensure_coordinate(da, "vertical")
-    da, latitude = _ensure_coordinate(da, "latitude")
-    da, longitude = _ensure_coordinate(da, "longitude")
-
-    return da.transpose(realization, time, vertical, latitude, longitude)
-
-
-def canonicalize_dataset(ds: xr.Dataset):
-    ds_new = {v: canonicalize_variable(da) for v, da in ds.items()}
-
-    return xr.Dataset(ds_new, coords=ds.coords, attrs=ds.attrs)
-
-
-def get_dataset_path(name: str, datasets: Optional[Path] = None) -> Path:
-    datasets = Path("datasets") if datasets is None else datasets
-
-    return datasets / name / "standardized.zarr"
-
-
-def download_canonicalized_dataset(
-    ds: xr.Dataset, name: str, datasets: Optional[Path] = None
-) -> Path:
-    datasets = Path("datasets") if datasets is None else datasets
-
-    download = datasets / name / "download.zarr"
+    download = datasets / cls.name / "download.zarr"
     if not download.exists():
         with ProgressBar():
-            ds.to_zarr(download, encoding=dict(), compute=False).compute()
+            cls.open().to_zarr(download, encoding=dict(), compute=False).compute()
 
-    standardized = datasets / name / "standardized.zarr"
+    standardized = datasets / cls.name / "standardized.zarr"
     if not standardized.exists():
         ds = xr.open_dataset(download, chunks=dict(), engine="zarr")
-        ds = canonicalize_dataset(ds)
+        ds = canon.canonicalize_dataset(ds)
 
         with ProgressBar():
             ds.to_zarr(standardized, encoding=dict(), compute=False).compute()
 
-    return standardized
+    return xr.open_dataset(standardized, chunks=dict(), engine="zarr")
+
+
+def open_downloaded_tiny_canonicalized_dataset(cls: type[Dataset]) -> xr.Dataset:
+    datasets = Path("datasets")
+
+    huge_download = datasets / cls.name / "download.zarr"
+    tiny_standardized = datasets / f"{cls.name}-tiny" / "standardized.zarr"
+
+    if not tiny_standardized.exists():
+        if huge_download.exists():
+            ds = xr.open_dataset(huge_download, chunks=dict(), engine="zarr")
+        else:
+            ds = cls.open()
+
+        ds = canon.canonicalize_dataset(ds)
+
+        ds = ds.isel(
+            {
+                ds.cf["realization"].name: slice(0, 1),
+                ds.cf["time"].name: slice(0, 4),
+                ds.cf["vertical"].name: slice(0, 4),
+                ds.cf["latitude"].name: slice(None),
+                ds.cf["longitude"].name: slice(None),
+            }
+        )
+
+        with ProgressBar():
+            ds.to_zarr(tiny_standardized, encoding=dict(), compute=False).compute()
+
+    return xr.open_dataset(tiny_standardized, chunks=dict(), engine="zarr")
