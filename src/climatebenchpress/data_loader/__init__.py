@@ -5,22 +5,27 @@ __all__ = [
     "open_downloaded_tiny_canonicalized_dataset",
 ]
 
-from pathlib import Path
+from typing import Optional
 
+import fsspec
 import xarray as xr
 from dask.diagnostics.progress import ProgressBar
 
-from . import canon, datasets
+from . import canon, datasets, vfs
 from .datasets.abc import Dataset
 
 
-def open_downloaded_canonicalized_dataset(cls: type[Dataset]) -> xr.Dataset:
-    datasets = Path("datasets")
+def open_downloaded_canonicalized_dataset(
+    cls: type[Dataset], fs: Optional[fsspec.AbstractFileSystem] = None
+) -> xr.Dataset:
+    datasets = vfs.path("datasets", fs=fs)
 
     download = datasets / cls.name / "download.zarr"
     if not download.exists():
         with ProgressBar():
-            cls.open().to_zarr(download, encoding=dict(), compute=False).compute()
+            cls.open().to_zarr(
+                vfs.zarr_store(download), encoding=dict(), compute=False
+            ).compute()
 
     standardized = datasets / cls.name / "standardized.zarr"
     if not standardized.exists():
@@ -28,20 +33,26 @@ def open_downloaded_canonicalized_dataset(cls: type[Dataset]) -> xr.Dataset:
         ds = canon.canonicalize_dataset(ds)
 
         with ProgressBar():
-            ds.to_zarr(standardized, encoding=dict(), compute=False).compute()
+            ds.to_zarr(
+                vfs.zarr_store(standardized), encoding=dict(), compute=False
+            ).compute()
 
-    return xr.open_dataset(standardized, chunks=dict(), engine="zarr")
+    return xr.open_dataset(vfs.xr_store(standardized), chunks=dict(), engine="zarr")
 
 
-def open_downloaded_tiny_canonicalized_dataset(cls: type[Dataset]) -> xr.Dataset:
-    datasets = Path("datasets")
+def open_downloaded_tiny_canonicalized_dataset(
+    cls: type[Dataset], fs: Optional[fsspec.AbstractFileSystem] = None
+) -> xr.Dataset:
+    datasets = vfs.path("datasets", fs=fs)
 
     huge_download = datasets / cls.name / "download.zarr"
     tiny_standardized = datasets / f"{cls.name}-tiny" / "standardized.zarr"
 
     if not tiny_standardized.exists():
         if huge_download.exists():
-            ds = xr.open_dataset(huge_download, chunks=dict(), engine="zarr")
+            ds = xr.open_dataset(
+                vfs.xr_store(huge_download), chunks=dict(), engine="zarr"
+            )
         else:
             ds = cls.open()
 
@@ -58,6 +69,10 @@ def open_downloaded_tiny_canonicalized_dataset(cls: type[Dataset]) -> xr.Dataset
         )
 
         with ProgressBar():
-            ds.to_zarr(tiny_standardized, encoding=dict(), compute=False).compute()
+            ds.to_zarr(
+                vfs.zarr_store(tiny_standardized), encoding=dict(), compute=False
+            ).compute()
 
-    return xr.open_dataset(tiny_standardized, chunks=dict(), engine="zarr")
+    return xr.open_dataset(
+        vfs.xr_store(tiny_standardized), chunks=dict(), engine="zarr"
+    )

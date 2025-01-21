@@ -9,6 +9,7 @@ dependencies = [
     "cftime~=1.6",
     "dask~=2024.12",
     "fsspec~=2024.12",
+    "universal-pathlib~=0.2",
     "xarray~=2025.1",
     "zarr~=2.18",
 ]
@@ -24,5 +25,5 @@ where = ["src"]
 "climatebenchpress.compressor" = ["py.typed"]
 
 [[tool.mypy.overrides]]
-module = ["fsspec.*"]
+module = ["fsspec.*", "zarr.*"]
 follow_untyped_imports = true
