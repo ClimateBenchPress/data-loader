@@ -23,6 +23,8 @@ class Cmip6Dataset(Dataset):
         )
 
         zstore = df_ta.zstore.values[-1]
+        zstore = zstore.replace("gs://", "https://storage.googleapis.com/")
+
         return xr.open_zarr(fsspec.get_mapper(zstore), consolidated=True)
 
     @lru_cache

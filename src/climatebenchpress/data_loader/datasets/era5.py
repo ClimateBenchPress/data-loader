@@ -8,9 +8,7 @@ from .. import (
     open_downloaded_tiny_canonicalized_dataset,
 )
 
-ERA5_GCP_PATH = (
-    "gs://gcp-public-data-arco-era5/ar/1959-2022-full_37-1h-0p25deg-chunk-1.zarr-v2"
-)
+ERA5_GCP_PATH = "https://storage.googleapis.com/gcp-public-data-arco-era5/ar/1959-2022-full_37-1h-0p25deg-chunk-1.zarr-v2"
 
 
 class Era5Dataset(Dataset):

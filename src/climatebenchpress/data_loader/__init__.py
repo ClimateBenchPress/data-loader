@@ -8,14 +8,15 @@ __all__ = [
 from pathlib import Path
 
 import xarray as xr
-from dask.diagnostics.progress import ProgressBar
 
-from . import canon, datasets
+from . import canon, datasets, monitor
 from .datasets.abc import Dataset
 
 
 def open_downloaded_canonicalized_dataset(
-    cls: type[Dataset], basepath: Path = Path()
+    cls: type[Dataset],
+    basepath: Path = Path(),
+    progress: bool = True,
 ) -> xr.Dataset:
     datasets = basepath / "datasets"
 
@@ -23,7 +24,7 @@ def open_downloaded_canonicalized_dataset(
     if not download.exists():
         ds = cls.open()
 
-        with ProgressBar():
+        with monitor.progress_bar(progress):
             ds.to_zarr(download, encoding=dict(), compute=False).compute()
 
     standardized = datasets / cls.name / "standardized.zarr"
@@ -31,14 +32,16 @@ def open_downloaded_canonicalized_dataset(
         ds = xr.open_dataset(download, chunks=dict(), engine="zarr")
         ds = canon.canonicalize_dataset(ds)
 
-        with ProgressBar():
+        with monitor.progress_bar(progress):
             ds.to_zarr(standardized, encoding=dict(), compute=False).compute()
 
     return xr.open_dataset(standardized, chunks=dict(), engine="zarr")
 
 
 def open_downloaded_tiny_canonicalized_dataset(
-    cls: type[Dataset], basepath: Path = Path()
+    cls: type[Dataset],
+    basepath: Path = Path(),
+    progress: bool = True,
 ) -> xr.Dataset:
     datasets = basepath / "datasets"
 
@@ -47,7 +50,7 @@ def open_downloaded_tiny_canonicalized_dataset(
         ds = cls.open()
         ds = canon.canonical_tiny_dataset(ds)
 
-        with ProgressBar():
+        with monitor.progress_bar(progress):
             ds.to_zarr(download, encoding=dict(), compute=False).compute()
 
     standardized = datasets / f"{cls.name}-tiny" / "standardized.zarr"
@@ -55,7 +58,7 @@ def open_downloaded_tiny_canonicalized_dataset(
         ds = xr.open_dataset(download, chunks=dict(), engine="zarr")
         ds = canon.canonicalize_dataset(ds)
 
-        with ProgressBar():
+        with monitor.progress_bar(progress):
             ds.to_zarr(standardized, encoding=dict(), compute=False).compute()
 
     return xr.open_dataset(standardized, chunks=dict(), engine="zarr")

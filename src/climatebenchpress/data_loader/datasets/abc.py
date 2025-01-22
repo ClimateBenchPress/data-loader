@@ -40,8 +40,7 @@ class Dataset(ABC):
 
         if name in Dataset._registry:
             raise TypeError(
-                f"duplicate Dataset name {name} for {cls} vs "
-                f"{Dataset._registry[name]}"
+                f"duplicate Dataset name {name} for {cls} vs {Dataset._registry[name]}"
             )
 
         Dataset._registry[name] = cls

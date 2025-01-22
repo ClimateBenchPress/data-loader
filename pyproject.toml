@@ -5,25 +5,25 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "cf-xarray~=0.10",
-    "cftime~=1.6",
-    "dask~=2024.12",
-    "fsspec~=2024.12",
-    "typed-classproperties~=1.1",
-    "xarray~=2025.1",
-    "zarr~=2.18",
+    "cf-xarray~=0.10.0",
+    "cftime~=1.6.0",
+    "dask~=2024.12.0",
+    "fsspec~=2024.10.0",
+    "typed-classproperties~=1.1.0",
+    "xarray~=2024.11.0",
+    "zarr~=2.18.0",
 ]
 
 [dependency-groups]
 dev = [
     "ipykernel~=6.29",
     "mypy~=1.14",
-    "pandas-stubs~=2.2",
+    "pandas-stubs~=2.2.0",
     "pytest~=8.3",
     "ruff~=0.8",
-    "universal-pathlib~=0.2",
+    "universal-pathlib~=0.2.0",
 ]
-data = ["gcsfs~=2024.12", "pandas~=2.2"]
+data = ["gcsfs~=2024.10.0", "pandas~=2.2.0"]
 
 [tool.setuptools.packages.find]
 where = ["src"]

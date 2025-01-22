@@ -13,7 +13,7 @@ class Cmip6AccessDataset(Cmip6Dataset):
     name = "cmip6-access"
 
     model_id = "ACCESS-ESM1-5"
-    ssp_io = "ssp585"
+    ssp_id = "ssp585"
 
     @staticmethod
     def open() -> xr.Dataset:

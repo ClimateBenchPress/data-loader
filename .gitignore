@@ -6,6 +6,7 @@
 /uv.lock
 
 /build
+/dist
 /site
 
 **/__pycache__
