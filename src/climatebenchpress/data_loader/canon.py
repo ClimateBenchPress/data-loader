@@ -1,8 +1,11 @@
 __all__ = [
     "canonicalize_dataset",
     "canonicalize_variable",
+    "canonical_tiny_dataset",
+    "canonical_tiny_variable",
 ]
 
+from typing import Optional
 import xarray as xr
 
 from . import cf
@@ -32,3 +35,44 @@ def canonicalize_dataset(ds: xr.Dataset):
     ds_new = {v: canonicalize_variable(da) for v, da in ds.items()}
 
     return xr.Dataset(ds_new, coords=ds.coords, attrs=ds.attrs)
+
+
+def canonical_tiny_variable(
+    da: xr.DataArray, slices: Optional[dict[str, slice]] = None
+) -> xr.DataArray:
+    if slices is None:
+        slices = _TINY_SLICES
+
+    return da.isel(
+        {
+            da.cf[coord].name: slice_
+            for coord, slice_ in slices.items()
+            if coord in da.cf.coordinates
+        }
+    )
+
+
+def canonical_tiny_dataset(
+    ds: xr.Dataset, slices: Optional[dict[str, slice]] = None
+) -> xr.Dataset:
+    if slices is None:
+        slices = _TINY_SLICES
+
+    # we need to slice the Dataset instead of the individual
+    #  variables to ensure that the coordinates are adjusted
+    return ds.isel(
+        {
+            ds.cf[coord].name: slice_
+            for coord, slice_ in slices.items()
+            if coord in ds.cf.coordinates
+        }
+    )
+
+
+_TINY_SLICES: dict[str, slice] = dict(
+    realization=slice(0, 1),
+    time=slice(0, 4),
+    vertical=slice(0, 4),
+    latitude=slice(None),
+    longitude=slice(None),
+)
