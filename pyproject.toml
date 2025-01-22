@@ -9,6 +9,7 @@ dependencies = [
     "cftime~=1.6",
     "dask~=2024.12",
     "fsspec~=2024.12",
+    "typed-classproperties~=1.1",
     "xarray~=2025.1",
     "zarr~=2.18",
 ]
