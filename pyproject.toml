@@ -14,6 +14,11 @@ dependencies = [
     "zarr~=2.18.0",
 ]
 
+optional-dependencies.data = [
+    "aiohttp~=3.11.0",
+    "pandas~=2.2.0",
+]
+
 [dependency-groups]
 dev = [
     "ipykernel~=6.29",
@@ -23,7 +28,6 @@ dev = [
     "ruff~=0.8",
     "universal-pathlib~=0.2.0",
 ]
-data = ["aiohttp~=3.11.0", "pandas~=2.2.0"]
 
 [tool.setuptools.packages.find]
 where = ["src"]

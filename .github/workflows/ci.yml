@@ -47,7 +47,7 @@ jobs:
         run: uv python install
 
       - name: Install the package
-        run: uv sync --all-groups && uv pip install .
+        run: uv sync --all-extras --all-groups && uv pip install .
 
       - name: Run tests
         run: uv run pytest
@@ -66,7 +66,7 @@ jobs:
         run: uv python install
 
       - name: Install the package
-        run: uv sync --all-groups && uv pip install .
+        run: uv sync --all-extras --all-groups && uv pip install .
 
       - name: Typecheck the package
         run: uv run mypy -p climatebenchpress.data_loader
