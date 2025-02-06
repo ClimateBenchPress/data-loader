@@ -38,6 +38,10 @@ class Dataset(ABC):
         if name is None:
             return
 
+        # Ignore datasets registered in the main module
+        if cls.__module__ == "__main__":
+            return
+
         if name in Dataset._registry:
             raise TypeError(
                 f"duplicate Dataset name {name} for {cls} vs {Dataset._registry[name]}"
