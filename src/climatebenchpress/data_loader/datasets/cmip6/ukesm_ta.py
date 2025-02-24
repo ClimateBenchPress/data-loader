@@ -18,7 +18,10 @@ class Cmip6TemperatureUkEsmDataset(Cmip6TemperatureDataset):
     @staticmethod
     def open() -> xr.Dataset:
         return Cmip6Dataset.open_with(
-            Cmip6TemperatureUkEsmDataset.model_id, Cmip6TemperatureUkEsmDataset.ssp_id
+            Cmip6TemperatureUkEsmDataset.model_id,
+            Cmip6TemperatureUkEsmDataset.ssp_id,
+            Cmip6TemperatureUkEsmDataset.variable_id,
+            Cmip6TemperatureUkEsmDataset.table_id,
         )
 
 

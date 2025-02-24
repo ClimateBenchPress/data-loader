@@ -1,4 +1,8 @@
-__all__ = ["Cmip6Dataset, Cmip6TemperatureDataset, Cmip6SeaSurfaceTemperatureDataset"]
+__all__ = [
+    "Cmip6Dataset",
+    "Cmip6TemperatureDataset",
+    "Cmip6SeaSurfaceTemperatureDataset",
+]
 
 from functools import lru_cache
 

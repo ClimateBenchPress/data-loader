@@ -20,6 +20,8 @@ class Cmip6TemperatureCanEsm5Dataset(Cmip6TemperatureDataset):
         return Cmip6Dataset.open_with(
             Cmip6TemperatureCanEsm5Dataset.model_id,
             Cmip6TemperatureCanEsm5Dataset.ssp_id,
+            Cmip6TemperatureCanEsm5Dataset.variable_id,
+            Cmip6TemperatureCanEsm5Dataset.table_id,
         )
 
 

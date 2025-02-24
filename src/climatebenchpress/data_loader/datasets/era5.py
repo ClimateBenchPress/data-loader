@@ -27,8 +27,8 @@ class Era5Dataset(Dataset):
         ]
         # Needed to make the dataset CF-compliant.
         ds.time.attrs["standard_name"] = "time"
-        ds.latitude.attrs["axis"] = "X"
-        ds.longitude.attrs["axis"] = "Y"
+        ds.longitude.attrs["axis"] = "X"
+        ds.latitude.attrs["axis"] = "Y"
         return ds
 
 
