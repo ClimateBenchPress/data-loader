@@ -22,6 +22,8 @@ def _ensure_coordinate(da: xr.DataArray, c: str) -> tuple[xr.DataArray, str]:
 
 
 def canonicalize_variable(da: xr.DataArray) -> xr.DataArray:
+    # It makes little sense to invent every coordinate, so keep
+    #  zero-dimensional variables as-is
     if len(da.dims) == 0:
         return da
 
@@ -35,6 +37,8 @@ def canonicalize_variable(da: xr.DataArray) -> xr.DataArray:
 
     new_dims = [realization, time, vertical, latitude, longitude]
 
+    # Some variables contain other dimensions (e.g. DIM_bnds),
+    #  let's not touch these'
     if not all(d in new_dims for d in da.dims):
         return da_old
 
