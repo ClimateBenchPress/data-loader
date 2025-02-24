@@ -26,8 +26,8 @@ def canonicalize_variable(da: xr.DataArray) -> xr.DataArray:
     da, realization = _ensure_axis(da, "E")
     da, time = _ensure_axis(da, "T")
     da, vertical = _ensure_axis(da, "Z")
-    da, latitude = _ensure_axis(da, "X")
-    da, longitude = _ensure_axis(da, "Y")
+    da, latitude = _ensure_axis(da, "Y")
+    da, longitude = _ensure_axis(da, "X")
 
     return da.transpose(realization, time, vertical, latitude, longitude)
 
@@ -66,6 +66,6 @@ _TINY_SLICES: dict[str, slice] = dict(
     E=slice(0, 1),
     T=slice(0, 4),
     Z=slice(0, 4),
-    X=slice(None),
     Y=slice(None),
+    X=slice(None),
 )
