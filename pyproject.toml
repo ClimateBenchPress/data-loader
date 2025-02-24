@@ -16,6 +16,7 @@ dependencies = [
 
 optional-dependencies.data = [
     "aiohttp~=3.11.0",
+    "kerchunk[hdf]~=0.2.0",
     "pandas~=2.2.0",
 ]
 
@@ -39,5 +40,5 @@ where = ["src"]
 addopts = ["--import-mode=importlib"]
 
 [[tool.mypy.overrides]]
-module = ["fsspec.*"]
+module = ["fsspec.*", "kerchunk.*"]
 follow_untyped_imports = true
