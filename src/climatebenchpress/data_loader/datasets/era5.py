@@ -2,11 +2,11 @@ __all__ = ["Era5Dataset"]
 
 import xarray as xr
 
-from .abc import Dataset
 from .. import (
     open_downloaded_canonicalized_dataset,
     open_downloaded_tiny_canonicalized_dataset,
 )
+from .abc import Dataset
 
 ERA5_GCP_PATH = "https://storage.googleapis.com/gcp-public-data-arco-era5/ar/1959-2022-full_37-1h-0p25deg-chunk-1.zarr-v2"
 
@@ -27,7 +27,8 @@ class Era5Dataset(Dataset):
         ]
         # Needed to make the dataset CF-compliant.
         ds.time.attrs["standard_name"] = "time"
-
+        ds.latitude.attrs["axis"] = "X"
+        ds.longitude.attrs["axis"] = "Y"
         return ds
 
 

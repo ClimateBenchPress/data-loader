@@ -6,13 +6,14 @@ __all__ = [
 ]
 
 from typing import Optional
+
 import xarray as xr
 
 from . import cf
 
 
-def _ensure_coordinate(da: xr.DataArray, c: str) -> tuple[xr.DataArray, str]:
-    if c in da.cf.coordinates:
+def _ensure_axis(da: xr.DataArray, c: str) -> tuple[xr.DataArray, str]:
+    if c in da.cf.axes:
         return (da, da.cf[c].name)
 
     da2 = da.expand_dims(c)
@@ -22,11 +23,11 @@ def _ensure_coordinate(da: xr.DataArray, c: str) -> tuple[xr.DataArray, str]:
 
 
 def canonicalize_variable(da: xr.DataArray) -> xr.DataArray:
-    da, realization = _ensure_coordinate(da, "realization")
-    da, time = _ensure_coordinate(da, "time")
-    da, vertical = _ensure_coordinate(da, "vertical")
-    da, latitude = _ensure_coordinate(da, "latitude")
-    da, longitude = _ensure_coordinate(da, "longitude")
+    da, realization = _ensure_axis(da, "E")
+    da, time = _ensure_axis(da, "T")
+    da, vertical = _ensure_axis(da, "Z")
+    da, latitude = _ensure_axis(da, "X")
+    da, longitude = _ensure_axis(da, "Y")
 
     return da.transpose(realization, time, vertical, latitude, longitude)
 
@@ -44,11 +45,7 @@ def canonical_tiny_variable(
         slices = _TINY_SLICES
 
     return da.isel(
-        {
-            da.cf[coord].name: slice_
-            for coord, slice_ in slices.items()
-            if coord in da.cf.coordinates
-        }
+        {da.cf[ax].name: slice_ for ax, slice_ in slices.items() if ax in da.cf.axes}
     )
 
 
@@ -59,20 +56,16 @@ def canonical_tiny_dataset(
         slices = _TINY_SLICES
 
     # we need to slice the Dataset instead of the individual
-    #  variables to ensure that the coordinates are adjusted
+    # variables to ensure that the coordinates are adjusted
     return ds.isel(
-        {
-            ds.cf[coord].name: slice_
-            for coord, slice_ in slices.items()
-            if coord in ds.cf.coordinates
-        }
+        {ds.cf[ax].name: slice_ for ax, slice_ in slices.items() if ax in ds.cf.axes}
     )
 
 
 _TINY_SLICES: dict[str, slice] = dict(
-    realization=slice(0, 1),
-    time=slice(0, 4),
-    vertical=slice(0, 4),
-    latitude=slice(None),
-    longitude=slice(None),
+    E=slice(0, 1),
+    T=slice(0, 4),
+    Z=slice(0, 4),
+    X=slice(None),
+    Y=slice(None),
 )
