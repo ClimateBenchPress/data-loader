@@ -1,9 +1,8 @@
+import climatebenchpress.data_loader
+import climatebenchpress.data_loader.datasets.abc
 import fsspec
 import xarray as xr
 from upath import UPath
-
-import climatebenchpress.data_loader
-import climatebenchpress.data_loader.datasets.abc
 
 
 def test_virtual_download():
@@ -30,7 +29,7 @@ class TestDataset(climatebenchpress.data_loader.datasets.abc.Dataset):
                 "t": (("lat", "lon"), [[1, 2], [3, 4]]),
             },
             coords={
-                "lat": ("lat", [-45, 45], {"standard_name": "latitude"}),
-                "lon": ("lon", [0, 180], {"standard_name": "longitude"}),
+                "lat": ("lat", [-45, 45], {"standard_name": "latitude", "axis": "Y"}),
+                "lon": ("lon", [0, 180], {"standard_name": "longitude", "axis": "X"}),
             },
         )
