@@ -1,8 +1,8 @@
 # ruff: noqa: F403
 
-from .access_ta import *
-from .access_tos import *
-from .canesm5_ta import *
-from .canesm5_tos import *
-from .ukesm_ta import *
-from .ukesm_tos import *
+from .access_atmos import *
+from .access_ocean import *
+from .canesm5_atmos import *
+from .canesm5_ocean import *
+from .ukesm_atmos import *
+from .ukesm_ocean import *

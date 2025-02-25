@@ -1,7 +1,7 @@
 __all__ = [
     "Cmip6Dataset",
-    "Cmip6TemperatureDataset",
-    "Cmip6SeaSurfaceTemperatureDataset",
+    "Cmip6AtmosphereDataset",
+    "Cmip6OceanDataset",
 ]
 
 from functools import lru_cache
@@ -43,11 +43,11 @@ class Cmip6Dataset(Dataset):
         )
 
 
-class Cmip6TemperatureDataset(Cmip6Dataset):
+class Cmip6AtmosphereDataset(Cmip6Dataset):
     variable_id = "ta"
     table_id = "Amon"
 
 
-class Cmip6SeaSurfaceTemperatureDataset(Cmip6Dataset):
+class Cmip6OceanDataset(Cmip6Dataset):
     variable_id = "tos"
     table_id = "Omon"
