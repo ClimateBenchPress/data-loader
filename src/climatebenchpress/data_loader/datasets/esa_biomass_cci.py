@@ -1,32 +1,135 @@
 __all__ = ["EsaBiomassCciDataset"]
 
+import time
+from pathlib import Path
+
 import kerchunk.hdf
+import requests
 import xarray as xr
 
-from .abc import Dataset
 from .. import (
     open_downloaded_canonicalized_dataset,
     open_downloaded_tiny_canonicalized_dataset,
 )
+from .abc import Dataset
+
+NUM_RETRIES = 3
+# Approximate bounding box coordinates for mainland France
+FRANCE_BBOX = {
+    # "latitude": slice(51.5, 41.0),  # North to South
+    # "longitude": slice(-5.5, 10.0),  # West to East
+    "latitude": slice(200, 300),  # North to South
+    "longitude": slice(300, 400),  # West to East
+}
+
+
+def _download_netcdf(url: str, output_path: Path, chunk_size=8192) -> bool:
+    """
+    Download a large NetCDF file from a given URL. Ensures that download can be
+    resumed if it is interrupted due to network failures.
+
+    Args:
+        url (str): URL of the NetCDF file
+        output_path (str): Local path to save the file
+        chunk_size (int): Size of chunks to download at a time in bytes
+
+    Returns:
+        bool: True if download was successful, False otherwise
+    """
+    session = requests.Session()
+
+    # Check if file exists and get its size for resume capability
+    file_size = 0
+    headers = {}
+    if output_path.exists():
+        file_size = output_path.stat().st_size
+        headers["Range"] = f"bytes={file_size}-"
+
+    try:
+        response = session.get(url, headers=headers, stream=True, timeout=30)
+
+        # Handle finished, resume, or new download
+        if response.status_code == 416:
+            # HTTP response means that requested range not satisfiable
+            # We're assuming this to mean that the file is already downloaded.
+            # NOTE: Ideally we would compare the actual file size with the expected size
+            #       or even better compare some checksums.
+            print(f"File already downloaded: {output_path}")
+            return True
+        elif file_size > 0 and response.status_code == 206:
+            mode = "ab"  # Append in binary mode
+        else:
+            mode = "wb"  # Write in binary mode
+            file_size = 0
+
+        total_size = int(response.headers.get("content-length", 0)) + file_size
+
+        print(f"Downloading {url} to {output_path}")
+        print(f"File size: {total_size / 1e6:.2f} MB")
+
+        with open(output_path, mode) as f:
+            downloaded = file_size
+            start_time = time.time()
+
+            for chunk in response.iter_content(chunk_size=chunk_size):
+                if chunk:
+                    f.write(chunk)
+                    downloaded += len(chunk)
+
+                    # Calculate and display progress
+                    elapsed_time = time.time() - start_time
+                    if elapsed_time > 0:
+                        speed = downloaded / (1e6 * elapsed_time)
+                        percent = (downloaded / total_size) * 100
+                        print(
+                            f"\rProgress: {percent:.2f}% - {downloaded / 1e6:.2f} MB - {speed:.2f} MB/s",
+                            end="",
+                            flush=True,
+                        )
+
+            print("\nDownload completed!")
+
+    except (requests.exceptions.RequestException, IOError) as e:
+        print(f"An error occurred: {e}")
+        print("You can resume the download by running the script again.")
+        return False
+
+    return True
 
 
 class EsaBiomassCciDataset(Dataset):
     name = "esa-biomass-cci"
 
     @staticmethod
-    def open() -> xr.Dataset:
+    def download(download_path: Path):
+        # urls = [
+        #     f"https://dap.ceda.ac.uk/neodc/esacci/biomass/data/agb/maps/v5.01/netcdf/ESACCI-BIOMASS-L4-AGB-MERGED-100m-{year}-fv5.01.nc"
+        #     for year in [2010, 2015, 2016, 2017, 2018, 2019, 2020, 2021]
+        # ]
         urls = [
-            f"https://dap.ceda.ac.uk/neodc/esacci/biomass/data/agb/maps/v5.01/netcdf/ESACCI-BIOMASS-L4-AGB-MERGED-100m-{year}-fv5.01.nc"
-            for year in [2010, 2015, 2016, 2017, 2018, 2019, 2020, 2021]
+            "https://dap.ceda.ac.uk/neodc/esacci/biomass/data/agb/maps/v5.01/netcdf/ESACCI-BIOMASS-L4-AGB-MERGED-10000m-fv5.01.nc"
         ]
+        for url in urls:
+            output_path = download_path / Path(url).name
+            for _ in range(NUM_RETRIES):
+                success = _download_netcdf(url, output_path)
+                if success:
+                    break
+            if not success:
+                print(f"Failed to download {url}")
+                return
 
+    @staticmethod
+    def open(download_path: Path) -> xr.Dataset:
+        files = list(download_path.glob("*.nc"))
         kcs = [
             kerchunk.hdf.SingleHdf5ToZarr(
-                url,
+                str(file),
                 inline_threshold=0,
                 error="raise",
+                storage_options={"timeout": 30},
             ).translate()
-            for url in urls
+            for file in files
         ]
 
         dss = [
@@ -47,7 +150,7 @@ class EsaBiomassCciDataset(Dataset):
 
 if __name__ == "__main__":
     ds = open_downloaded_canonicalized_dataset(EsaBiomassCciDataset)
-    open_downloaded_tiny_canonicalized_dataset(EsaBiomassCciDataset)
+    open_downloaded_tiny_canonicalized_dataset(EsaBiomassCciDataset, slices=FRANCE_BBOX)
 
     for v, da in ds.items():
         print(f"- {v}: {da.dims}")
