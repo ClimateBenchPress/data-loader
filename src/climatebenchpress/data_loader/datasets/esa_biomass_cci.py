@@ -14,13 +14,8 @@ from .. import (
 from .abc import Dataset
 
 NUM_RETRIES = 3
-# Approximate bounding box coordinates for mainland France
-FRANCE_BBOX = {
-    # "latitude": slice(51.5, 41.0),  # North to South
-    # "longitude": slice(-5.5, 10.0),  # West to East
-    "latitude": slice(200, 300),  # North to South
-    "longitude": slice(300, 400),  # West to East
-}
+# Approximate bounding box for mainland France
+FRANCE_BBOX = {"X": slice(157500, 157500), "Y": slice(196313, 213750)}
 
 
 def _download_netcdf(url: str, output_path: Path, chunk_size=8192) -> bool:
@@ -102,12 +97,10 @@ class EsaBiomassCciDataset(Dataset):
 
     @staticmethod
     def download(download_path: Path):
-        # urls = [
-        #     f"https://dap.ceda.ac.uk/neodc/esacci/biomass/data/agb/maps/v5.01/netcdf/ESACCI-BIOMASS-L4-AGB-MERGED-100m-{year}-fv5.01.nc"
-        #     for year in [2010, 2015, 2016, 2017, 2018, 2019, 2020, 2021]
-        # ]
         urls = [
-            "https://dap.ceda.ac.uk/neodc/esacci/biomass/data/agb/maps/v5.01/netcdf/ESACCI-BIOMASS-L4-AGB-MERGED-10000m-fv5.01.nc"
+            f"https://dap.ceda.ac.uk/neodc/esacci/biomass/data/agb/maps/v5.01/netcdf/ESACCI-BIOMASS-L4-AGB-MERGED-100m-{year}-fv5.01.nc"
+            # Restrict to 2 years for now for smaller download.
+            for year in [2010, 2015]
         ]
         for url in urls:
             output_path = download_path / Path(url).name
@@ -127,7 +120,6 @@ class EsaBiomassCciDataset(Dataset):
                 str(file),
                 inline_threshold=0,
                 error="raise",
-                storage_options={"timeout": 30},
             ).translate()
             for file in files
         ]
