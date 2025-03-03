@@ -12,8 +12,6 @@ dependencies = [
     "requests~=2.32.3",
     "tqdm~=4.67.1",
     "typed-classproperties~=1.1.0",
-    "types-requests~=2.32.0.20241016",
-    "types-tqdm~=4.67.0.20250301",
     "xarray~=2024.11.0",
     "zarr~=2.18.0",
 ]
@@ -31,6 +29,8 @@ dev = [
     "pandas-stubs~=2.2.0",
     "pytest~=8.3",
     "ruff~=0.8",
+    "types-requests~=2.32.0.20241016",
+    "types-tqdm~=4.67.0.20250301",
     "universal-pathlib~=0.2.0",
 ]
 
@@ -44,5 +44,5 @@ where = ["src"]
 addopts = ["--import-mode=importlib"]
 
 [[tool.mypy.overrides]]
-module = ["fsspec.*", "kerchunk.*"]
+module = ["fsspec.*"]
 follow_untyped_imports = true
