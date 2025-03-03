@@ -1,11 +1,11 @@
 __all__ = ["EsaBiomassCciDataset"]
 
-import time
+import logging
 from pathlib import Path
 
-import kerchunk.hdf
 import requests
 import xarray as xr
+from tqdm import tqdm
 
 from .. import (
     open_downloaded_canonicalized_dataset,
@@ -18,7 +18,39 @@ NUM_RETRIES = 3
 FRANCE_BBOX = {"X": slice(196313, 213750), "Y": slice(32063, 43875)}
 
 
-def _download_netcdf(url: str, output_path: Path, chunk_size=8192) -> bool:
+class EsaBiomassCciDataset(Dataset):
+    name = "esa-biomass-cci-test"
+
+    @staticmethod
+    def download(download_path: Path, progress: bool = True):
+        urls = [
+            f"https://dap.ceda.ac.uk/neodc/esacci/biomass/data/agb/maps/v5.01/netcdf/ESACCI-BIOMASS-L4-AGB-MERGED-100m-{year}-fv5.01.nc"
+            # Restrict to 2 years for now for smaller download.
+            for year in [2010, 2015]
+        ]
+        for url in urls:
+            output_path = download_path / Path(url).name
+            for _ in range(NUM_RETRIES):
+                success = _download_netcdf(url, output_path, progress)
+                if success:
+                    break
+            if not success:
+                logging.info(f"Failed to download {url}")
+                return
+
+    @staticmethod
+    def open(download_path: Path) -> xr.Dataset:
+        # Need string conversion for argument to be interpreted as a glob pattern.
+        ds = xr.open_mfdataset(str(download_path / "*.nc"))
+        # Needed to make the dataset CF-compliant.
+        ds.lon.attrs["axis"] = "X"
+        ds.lat.attrs["axis"] = "Y"
+        return ds
+
+
+def _download_netcdf(
+    url: str, output_path: Path, progress: bool, chunk_size=8192
+) -> bool:
     """
     Download a large NetCDF file from a given URL. Ensures that download can be
     resumed if it is interrupted due to network failures.
@@ -31,6 +63,11 @@ def _download_netcdf(url: str, output_path: Path, chunk_size=8192) -> bool:
     Returns:
         bool: True if download was successful, False otherwise
     """
+    donefile = output_path.with_name(output_path.name + ".done")
+    if donefile.exists():
+        logging.debug(f"File already downloaded: {output_path}")
+        return True
+
     session = requests.Session()
 
     # Check if file exists and get its size for resume capability
@@ -43,15 +80,8 @@ def _download_netcdf(url: str, output_path: Path, chunk_size=8192) -> bool:
     try:
         response = session.get(url, headers=headers, stream=True, timeout=30)
 
-        # Handle finished, resume, or new download
-        if response.status_code == 416:
-            # HTTP response means that requested range not satisfiable
-            # We're assuming this to mean that the file is already downloaded.
-            # NOTE: Ideally we would compare the actual file size with the expected size
-            #       or even better compare some checksums.
-            print(f"File already downloaded: {output_path}")
-            return True
-        elif file_size > 0 and response.status_code == 206:
+        # Handle resume or new download
+        if file_size > 0 and response.status_code == 206:
             mode = "ab"  # Append in binary mode
         else:
             mode = "wb"  # Write in binary mode
@@ -59,89 +89,33 @@ def _download_netcdf(url: str, output_path: Path, chunk_size=8192) -> bool:
 
         total_size = int(response.headers.get("content-length", 0)) + file_size
 
-        print(f"Downloading {url} to {output_path}")
-        print(f"File size: {total_size / 1e6:.2f} MB")
+        logging.debug(f"Downloading {url} to {output_path} in mode '{mode}'")
+        logging.debug(f"File size: {total_size / 1e6:.2f} MB")
 
         with open(output_path, mode) as f:
-            downloaded = file_size
-            start_time = time.time()
+            with tqdm(
+                total=total_size,
+                unit="B",
+                unit_scale=True,
+                desc=output_path.name,
+                initial=file_size,
+                ascii=True,
+            ) as pbar:
+                for chunk in response.iter_content(chunk_size=chunk_size):
+                    if chunk:
+                        f.write(chunk)
+                        pbar.update(len(chunk))
 
-            for chunk in response.iter_content(chunk_size=chunk_size):
-                if chunk:
-                    f.write(chunk)
-                    downloaded += len(chunk)
+            logging.debug("\nDownload completed!")
 
-                    # Calculate and display progress
-                    elapsed_time = time.time() - start_time
-                    if elapsed_time > 0:
-                        speed = downloaded / (1e6 * elapsed_time)
-                        percent = (downloaded / total_size) * 100
-                        print(
-                            f"\rProgress: {percent:.2f}% - {downloaded / 1e6:.2f} MB - {speed:.2f} MB/s",
-                            end="",
-                            flush=True,
-                        )
-
-            print("\nDownload completed!")
+        donefile.touch()
 
     except (requests.exceptions.RequestException, IOError) as e:
-        print(f"An error occurred: {e}")
-        print("You can resume the download by running the script again.")
+        logging.error(f"An error occurred: {e}")
+        logging.error("You can resume the download by running the script again.")
         return False
 
     return True
-
-
-class EsaBiomassCciDataset(Dataset):
-    name = "esa-biomass-cci"
-
-    @staticmethod
-    def download(download_path: Path):
-        urls = [
-            f"https://dap.ceda.ac.uk/neodc/esacci/biomass/data/agb/maps/v5.01/netcdf/ESACCI-BIOMASS-L4-AGB-MERGED-100m-{year}-fv5.01.nc"
-            # Restrict to 2 years for now for smaller download.
-            for year in [2010, 2015]
-        ]
-        for url in urls:
-            output_path = download_path / Path(url).name
-            for _ in range(NUM_RETRIES):
-                success = _download_netcdf(url, output_path)
-                if success:
-                    break
-            if not success:
-                print(f"Failed to download {url}")
-                return
-
-    @staticmethod
-    def open(download_path: Path) -> xr.Dataset:
-        files = list(download_path.glob("*.nc"))
-        kcs = [
-            kerchunk.hdf.SingleHdf5ToZarr(
-                str(file),
-                inline_threshold=0,
-                error="raise",
-            ).translate()
-            for file in files
-        ]
-
-        dss = [
-            xr.open_dataset(
-                "reference://",
-                engine="zarr",
-                backend_kwargs=dict(
-                    storage_options=dict(fo=kc),
-                ),
-                consolidated=False,
-                chunks=dict(),
-            )
-            for kc in kcs
-        ]
-
-        ds = xr.concat(dss, dim="time")
-        # Needed to make the dataset CF-compliant.
-        ds.lon.attrs["axis"] = "X"
-        ds.lat.attrs["axis"] = "Y"
-        return ds
 
 
 if __name__ == "__main__":
