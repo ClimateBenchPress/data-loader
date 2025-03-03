@@ -14,15 +14,6 @@ from . import canon, datasets, monitor
 from .datasets.abc import Dataset
 
 
-def _rechunk_dataset(ds: xr.Dataset) -> xr.Dataset:
-    rechunked = ds.copy()
-    for var_name in ds.data_vars:
-        if hasattr(ds[var_name].data, "chunks"):
-            rechunked[var_name] = ds[var_name].chunk("auto")
-
-    return rechunked
-
-
 def open_downloaded_canonicalized_dataset(
     cls: type[Dataset],
     basepath: Path = Path(),
@@ -36,7 +27,7 @@ def open_downloaded_canonicalized_dataset(
     # The download function is responsible for checking whether the download is
     # complete or not. If the previous download was interrupt it will resume the download.
     # If the download is complete it will skip the download.
-    cls.download(download)
+    cls.download(download, progress)
 
     standardized = datasets / cls.name / "standardized.zarr"
     if not standardized.exists():
@@ -60,7 +51,7 @@ def open_downloaded_tiny_canonicalized_dataset(
     download = datasets / f"{cls.name}" / "download"
     if not download.exists():
         download.mkdir(parents=True, exist_ok=True)
-    cls.download(download)
+    cls.download(download, progress)
 
     standardized = datasets / f"{cls.name}-tiny" / "standardized.zarr"
     if not standardized.exists():
@@ -77,3 +68,12 @@ def open_downloaded_tiny_canonicalized_dataset(
             ).compute()
 
     return xr.open_dataset(standardized, chunks=dict(), engine="zarr")
+
+
+def _rechunk_dataset(ds: xr.Dataset) -> xr.Dataset:
+    rechunked = ds.copy()
+    for var_name in ds.data_vars:
+        if hasattr(ds[var_name].data, "chunks"):
+            rechunked[var_name] = ds[var_name].chunk("auto")
+
+    return rechunked

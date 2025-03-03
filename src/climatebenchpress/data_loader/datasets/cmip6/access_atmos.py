@@ -1,6 +1,6 @@
 __all__ = ["Cmip6AtmosphereAccessDataset"]
 
-import xarray as xr
+from pathlib import Path
 
 from ... import (
     open_downloaded_canonicalized_dataset,
@@ -16,12 +16,14 @@ class Cmip6AtmosphereAccessDataset(Cmip6AtmosphereDataset):
     ssp_id = "ssp585"
 
     @staticmethod
-    def open() -> xr.Dataset:
-        return Cmip6Dataset.open_with(
+    def download(download_path: Path, progress: bool = True):
+        Cmip6Dataset.download_with(
+            download_path,
             Cmip6AtmosphereAccessDataset.model_id,
             Cmip6AtmosphereAccessDataset.ssp_id,
             Cmip6AtmosphereAccessDataset.variable_id,
             Cmip6AtmosphereAccessDataset.table_id,
+            progress=progress,
         )
 
 

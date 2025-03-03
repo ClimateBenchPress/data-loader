@@ -1,5 +1,8 @@
+from pathlib import Path
+
 import climatebenchpress.data_loader
 import climatebenchpress.data_loader.datasets.abc
+import climatebenchpress.data_loader.monitor
 import fsspec
 import xarray as xr
 from upath import UPath
@@ -15,7 +18,7 @@ def test_virtual_download():
     )
     assert ds.t.shape == (1, 1, 1, 2, 2)
 
-    assert (basepath / "datasets" / "test" / "download.zarr").exists()
+    assert (basepath / "datasets" / "test" / "download" / "download.zarr").exists()
     assert (basepath / "datasets" / "test" / "standardized.zarr").exists()
 
 
@@ -23,8 +26,8 @@ class TestDataset(climatebenchpress.data_loader.datasets.abc.Dataset):
     name = "test"
 
     @staticmethod
-    def open() -> xr.Dataset:
-        return xr.Dataset(
+    def download(download_path: Path, progress: bool = True):
+        ds = xr.Dataset(
             {
                 "t": (("lat", "lon"), [[1, 2], [3, 4]]),
             },
@@ -33,3 +36,14 @@ class TestDataset(climatebenchpress.data_loader.datasets.abc.Dataset):
                 "lon": ("lon", [0, 180], {"standard_name": "longitude", "axis": "X"}),
             },
         )
+        with climatebenchpress.data_loader.monitor.progress_bar(progress):
+            ds.to_zarr(
+                download_path / "download.zarr",
+                mode="w",
+                encoding=dict(),
+                compute=False,
+            ).compute()
+
+    @staticmethod
+    def open(download_path: Path) -> xr.Dataset:
+        return xr.open_zarr(download_path / "download.zarr")

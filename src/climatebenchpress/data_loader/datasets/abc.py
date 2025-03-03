@@ -3,6 +3,7 @@ __all__ = ["Dataset"]
 from abc import ABC, abstractmethod
 from collections.abc import Mapping
 from inspect import isabstract
+from pathlib import Path
 from types import MappingProxyType
 
 import xarray as xr
@@ -15,7 +16,12 @@ class Dataset(ABC):
 
     @staticmethod
     @abstractmethod
-    def open() -> xr.Dataset:
+    def download(download_path: Path, progress: bool = True):
+        pass
+
+    @staticmethod
+    @abstractmethod
+    def open(download_path: Path) -> xr.Dataset:
         pass
 
     # Class interface
