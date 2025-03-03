@@ -5,11 +5,14 @@ __all__ = [
 ]
 
 from functools import lru_cache
+from pathlib import Path
+from typing import Optional
 
 import fsspec
 import pandas as pd
 import xarray as xr
 
+from ... import monitor
 from ..abc import Dataset
 
 
@@ -20,9 +23,20 @@ class Cmip6Dataset(Dataset):
     table_id: str
 
     @staticmethod
-    def open_with(
-        model_id: str, ssp_id: str, variable_id: str, table_id: str
-    ) -> xr.Dataset:
+    def download_with(
+        download_path: Path,
+        model_id: str,
+        ssp_id: str,
+        variable_id: str,
+        table_id: str,
+        variable_selector: Optional[list[str]] = None,
+        progress: bool = True,
+    ):
+        downloadfile = download_path / "download.zarr"
+        donefile = downloadfile.parent / (downloadfile.name + ".done")
+        if donefile.exists():
+            return
+
         df = Cmip6Dataset.get_stores()
 
         df_ta = df.query(
@@ -33,7 +47,17 @@ class Cmip6Dataset(Dataset):
         zstore = df_ta.zstore.values[-1]
         zstore = zstore.replace("gs://", "https://storage.googleapis.com/")
 
-        return xr.open_zarr(fsspec.get_mapper(zstore), consolidated=True)
+        ds = xr.open_zarr(fsspec.get_mapper(zstore), consolidated=True)
+        if variable_selector is not None:
+            ds = ds[variable_selector]
+        with monitor.progress_bar(progress):
+            ds.to_zarr(downloadfile, mode="w", encoding=dict(), compute=False).compute()
+
+        donefile.touch()
+
+    @staticmethod
+    def open(download_path: Path) -> xr.Dataset:
+        return xr.open_zarr(download_path / "download.zarr")
 
     @lru_cache
     @staticmethod

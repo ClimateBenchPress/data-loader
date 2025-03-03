@@ -1,8 +1,11 @@
 __all__ = ["Era5Dataset"]
 
+from pathlib import Path
+
 import xarray as xr
 
 from .. import (
+    monitor,
     open_downloaded_canonicalized_dataset,
     open_downloaded_tiny_canonicalized_dataset,
 )
@@ -15,7 +18,12 @@ class Era5Dataset(Dataset):
     name = "era5"
 
     @staticmethod
-    def open() -> xr.Dataset:
+    def download(download_path: Path, progress: bool = True):
+        downloadfile = download_path / "download.zarr"
+        donefile = downloadfile.parent / (downloadfile.name + ".done")
+        if donefile.exists():
+            return
+
         era5 = xr.open_zarr(ERA5_GCP_PATH, chunks={"time": 48}, consolidated=True)
 
         ds = era5.sel(time=slice("2020-03-01", "2020-03-07"))[
@@ -29,7 +37,13 @@ class Era5Dataset(Dataset):
         ds.time.attrs["standard_name"] = "time"
         ds.longitude.attrs["axis"] = "X"
         ds.latitude.attrs["axis"] = "Y"
-        return ds
+        with monitor.progress_bar(progress):
+            ds.to_zarr(downloadfile, mode="w", encoding=dict(), compute=False).compute()
+        donefile.touch()
+
+    @staticmethod
+    def open(download_path: Path) -> xr.Dataset:
+        return xr.open_zarr(download_path / "download.zarr")
 
 
 if __name__ == "__main__":

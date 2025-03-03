@@ -1,6 +1,6 @@
 __all__ = ["Cmip6OceanAccessDataset"]
 
-import xarray as xr
+from pathlib import Path
 
 from ... import (
     open_downloaded_canonicalized_dataset,
@@ -16,15 +16,17 @@ class Cmip6OceanAccessDataset(Cmip6OceanDataset):
     ssp_id = "ssp585"
 
     @staticmethod
-    def open() -> xr.Dataset:
-        ds = Cmip6Dataset.open_with(
+    def download(download_path: Path, progress: bool = True):
+        Cmip6Dataset.download_with(
+            download_path,
             Cmip6OceanAccessDataset.model_id,
             Cmip6OceanAccessDataset.ssp_id,
             Cmip6OceanAccessDataset.variable_id,
             Cmip6OceanAccessDataset.table_id,
+            # Only download the actual sea surface temperature.
+            variable_selector=["tos"],
+            progress=progress,
         )
-        # Only keep the actual sea surface temperature.
-        return ds[["tos"]]
 
 
 if __name__ == "__main__":

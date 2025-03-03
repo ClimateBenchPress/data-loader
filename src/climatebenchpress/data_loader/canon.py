@@ -23,13 +23,27 @@ def _ensure_axis(da: xr.DataArray, c: str) -> tuple[xr.DataArray, str]:
 
 
 def canonicalize_variable(da: xr.DataArray) -> xr.DataArray:
+    # It makes little sense to invent every coordinate, so keep
+    #  zero-dimensional variables as-is
+    if len(da.dims) == 0:
+        return da
+
+    da_old = da.copy(deep=False)
+
     da, realization = _ensure_axis(da, "E")
     da, time = _ensure_axis(da, "T")
     da, vertical = _ensure_axis(da, "Z")
     da, latitude = _ensure_axis(da, "Y")
     da, longitude = _ensure_axis(da, "X")
 
-    return da.transpose(realization, time, vertical, latitude, longitude)
+    new_dims = [realization, time, vertical, latitude, longitude]
+
+    # Some variables contain other dimensions (e.g. DIM_bnds),
+    #  let's not touch these'
+    if not all(d in new_dims for d in da.dims):
+        return da_old
+
+    return da.transpose(*new_dims)
 
 
 def canonicalize_dataset(ds: xr.Dataset):
