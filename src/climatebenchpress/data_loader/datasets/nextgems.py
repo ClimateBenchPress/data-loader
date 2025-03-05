@@ -2,8 +2,8 @@ __all__ = ["NextGemsDataset"]
 
 from pathlib import Path
 
-import healpy
-import intake
+import healpy  # type: ignore
+import intake  # type: ignore
 import numpy as np
 import xarray as xr
 
