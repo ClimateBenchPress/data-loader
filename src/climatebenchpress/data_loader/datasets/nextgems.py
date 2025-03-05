@@ -48,7 +48,7 @@ class NextGemsDataset(Dataset):
         #       artifacts as the result of interpolation. For more details:
         #       https://easy.gems.dkrz.de/Processing/healpix/lonlat_remap.html.
         idx = _get_nn_lon_lat_index(
-            2**ZOOM, np.linspace(-180, 180, 2880), np.linspace(-90, 90, 1440)
+            2**ZOOM, np.linspace(-180, 180, NUM_LON), np.linspace(-90, 90, NUM_LAT)
         )
         ds = ds.isel(cell=idx).chunk({"time": 1, "lat": NUM_LAT, "lon": NUM_LON})
         ds.lon.attrs["axis"] = "X"
