@@ -2,8 +2,8 @@ __all__ = ["NextGemsDataset"]
 
 from pathlib import Path
 
-import healpy  # type: ignore
-import intake  # type: ignore
+import healpy
+import intake
 import numpy as np
 import xarray as xr
 
@@ -64,6 +64,22 @@ class NextGemsDataset(Dataset):
 
 
 def _get_nn_lon_lat_index(nside, lons, lats):
+    """For each lon/lat pair, find the nearest neighbour index in the HEALPix grid.
+
+    The HEALPix grid is not a rectilinear grid, in xarray all the individual cells
+    are stored in a single dimension indexed by a cell number. This function maps
+    lon/lat pairs and returns the cell number of cell closest to a given lon/lat pair.
+
+    See https://easy.gems.dkrz.de/Processing/healpix/lonlat_remap.html for more details.
+
+    Args:
+        nside (int): The HealPIX grid resolution.
+        lons (np.ndarray): The longitudes.
+        lats (np.ndarray): The latitudes.
+
+    Returns:
+        xr.DataArray: The nearest neighbour index for each lon/lat pair.
+    """
     lons2, lats2 = np.meshgrid(lons, lats)
     return xr.DataArray(
         healpy.ang2pix(nside, lons2, lats2, nest=True, lonlat=True),

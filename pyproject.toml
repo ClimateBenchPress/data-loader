@@ -48,5 +48,5 @@ where = ["src"]
 addopts = ["--import-mode=importlib"]
 
 [[tool.mypy.overrides]]
-module = ["fsspec.*"]
+module = ["fsspec.*", "intake.*", "healpy.*"]
 follow_untyped_imports = true
