@@ -9,7 +9,15 @@ dependencies = [
     "cftime~=1.6.0",
     "dask~=2024.12.0",
     "fsspec~=2024.10.0",
+    "healpy~=1.18.0",
+    # These versions need to be pinned to be compatible with the NextGEMS
+    # catalog at https://data.nextgems-h2020.eu/online.yaml.
+    "intake==0.7.0",
+    "intake-xarray==0.7.0",
     "requests~=2.32.3",
+    # Setuptools is added to ensure compatibility with intake-xarray version 0.7.0.
+    # intake-xarray is relying on distutils which was removed from Python 3.12.
+    "setuptools~=75.8.2",
     "tqdm~=4.67.1",
     "typed-classproperties~=1.1.0",
     "xarray~=2024.11.0",
@@ -44,5 +52,5 @@ where = ["src"]
 addopts = ["--import-mode=importlib"]
 
 [[tool.mypy.overrides]]
-module = ["fsspec.*"]
+module = ["fsspec.*", "intake.*", "healpy.*"]
 follow_untyped_imports = true
