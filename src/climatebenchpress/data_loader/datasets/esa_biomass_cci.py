@@ -13,8 +13,8 @@ from ..download import _download_netcdf
 from .abc import Dataset
 
 NUM_RETRIES = 3
-# Approximate bounding box for mainland France
-FRANCE_BBOX = {"X": slice(196313, 213750), "Y": slice(32063, 43875)}
+# Bounding box for an area in mainland France
+FRANCE_BBOX = {"T": slice(0, 1), "X": slice(202531, 207531), "Y": slice(35469, 40469)}
 
 
 class EsaBiomassCciDataset(Dataset):
@@ -44,7 +44,7 @@ class EsaBiomassCciDataset(Dataset):
         # Needed to make the dataset CF-compliant.
         ds.lon.attrs["axis"] = "X"
         ds.lat.attrs["axis"] = "Y"
-        return ds
+        return ds[["agb"]]
 
 
 if __name__ == "__main__":
