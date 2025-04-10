@@ -22,6 +22,9 @@ ZOOM = 9
 # Allowed values: "P1D" (daily), "PT3H" (3-hourly), "PT15M" (15-minute).
 TIME_RESOLUTION = "PT3H"
 
+PRECIP_KEY = "pr"
+OLR_KEY = "rlut"
+
 NUM_LON = 2880
 NUM_LAT = 1440
 
@@ -41,7 +44,7 @@ class NextGemsDataset(Dataset):
             zoom=ZOOM, time=TIME_RESOLUTION, chunks=dict()
         ).to_dask()
 
-        ds = icon[["rlut"]].sel(time=slice("2020-03-01", "2020-03-07"))
+        ds = icon[[PRECIP_KEY, OLR_KEY]].sel(time=slice("2020-03-01", "2020-03-07"))
         # Regrid the data to 0.125 degree resolution.
         # NOTE: This is using nearest neighbour interpolation. We need to do some
         #       quality checks to ensure we don't get any significant aliasing
