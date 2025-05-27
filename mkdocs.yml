@@ -40,6 +40,7 @@ plugins:
       source_dirs:
         - nav_heading: [Documentation]
           base: src
+          ignore: ["cf.py", "download.py"]
   - mkdocstrings:
       enable_inventory: true
       handlers:
