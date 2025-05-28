@@ -26,7 +26,7 @@ class Era5Dataset(Dataset):
 
         era5 = xr.open_zarr(ERA5_GCP_PATH, chunks={"time": 48}, consolidated=True)
 
-        ds = era5.sel(time=slice("2020-03-01", "2020-03-07"))[
+        ds = era5.sel(time=slice("2020-03-01", "2020-03-01"))[
             [
                 "mean_sea_level_pressure",
                 "10m_u_component_of_wind",
