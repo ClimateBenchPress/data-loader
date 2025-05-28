@@ -48,8 +48,12 @@ class Cmip6Dataset(Dataset):
         zstore = zstore.replace("gs://", "https://storage.googleapis.com/")
 
         ds = xr.open_zarr(fsspec.get_mapper(zstore), consolidated=True)
+        # Only select the year 2020 for the dataset.
+        # .chunk(-1) ensures that we only use a single chunk for the entire dataset.
+        ds = ds.sel(time=slice("2020", "2020")).chunk(-1)
         if variable_selector is not None:
             ds = ds[variable_selector]
+
         with monitor.progress_bar(progress):
             ds.to_zarr(downloadfile, mode="w", encoding=dict(), compute=False).compute()
 
