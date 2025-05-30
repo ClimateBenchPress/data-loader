@@ -34,7 +34,7 @@ class Era5Dataset(Dataset):
                 "10m_u_component_of_wind",
                 "10m_v_component_of_wind",
             ]
-        ]
+        ].chunk(-1)
         # Needed to make the dataset CF-compliant.
         ds.time.attrs["standard_name"] = "time"
         ds.longitude.attrs["axis"] = "X"

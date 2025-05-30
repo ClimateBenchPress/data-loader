@@ -6,7 +6,6 @@ from pathlib import Path
 import xarray as xr
 
 from .. import (
-    _rechunk_dataset,
     open_downloaded_canonicalized_dataset,
     open_downloaded_tiny_canonicalized_dataset,
 )
@@ -51,8 +50,7 @@ class EsaBiomassCciDataset(Dataset):
         ds = ds.sel(
             lon=slice(FRANCE_BBOX[0], FRANCE_BBOX[2]),
             lat=slice(FRANCE_BBOX[3], FRANCE_BBOX[1]),
-        )
-        ds = _rechunk_dataset(ds)
+        ).chunk(-1)
         return ds[["agb"]]
 
 

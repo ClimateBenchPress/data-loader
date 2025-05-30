@@ -56,7 +56,7 @@ class NextGemsDataset(Dataset):
         idx = _get_nn_lon_lat_index(
             2**ZOOM, np.linspace(-180, 180, NUM_LON), np.linspace(-90, 90, NUM_LAT)
         )
-        ds = ds.isel(cell=idx).chunk({"time": 1, "lat": NUM_LAT, "lon": NUM_LON})
+        ds = ds.isel(cell=idx).chunk(-1)
         ds.lon.attrs["axis"] = "X"
         ds.lat.attrs["axis"] = "Y"
 
