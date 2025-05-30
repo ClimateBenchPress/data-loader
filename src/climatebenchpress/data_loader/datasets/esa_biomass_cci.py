@@ -44,6 +44,10 @@ class EsaBiomassCciDataset(Dataset):
         # Needed to make the dataset CF-compliant.
         ds.lon.attrs["axis"] = "X"
         ds.lat.attrs["axis"] = "Y"
+        # We are constraining the dataset to mainland France to reduce its overall size.
+        # The global snapshot would be around 20 GB, which is too large for our use case.
+        # We chose France because it should have a fairly diverse set of biomass estimates
+        # but the choice is overall somewhat arbitrary.
         ds = ds.sel(
             lon=slice(FRANCE_BBOX[0], FRANCE_BBOX[2]),
             lat=slice(FRANCE_BBOX[3], FRANCE_BBOX[1]),

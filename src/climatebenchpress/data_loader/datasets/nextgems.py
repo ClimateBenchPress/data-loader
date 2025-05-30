@@ -44,6 +44,8 @@ class NextGemsDataset(Dataset):
             zoom=ZOOM, time=TIME_RESOLUTION, chunks=dict()
         ).to_dask()
 
+        # Restrict data to a single day.
+        # The specific day is arbitrary.
         ds = icon[[PRECIP_KEY, OLR_KEY]].sel(time=slice("2020-03-01", "2020-03-01"))
         # Regrid the data to 0.125 degree resolution.
         # NOTE:
