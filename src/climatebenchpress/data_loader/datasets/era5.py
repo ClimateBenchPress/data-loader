@@ -26,13 +26,15 @@ class Era5Dataset(Dataset):
 
         era5 = xr.open_zarr(ERA5_GCP_PATH, chunks={"time": 48}, consolidated=True)
 
-        ds = era5.sel(time=slice("2020-03-01", "2020-03-07"))[
+        # Restrict data to a single day.
+        # The specific day is arbitrary.
+        ds = era5.sel(time=slice("2020-03-01", "2020-03-01"))[
             [
                 "mean_sea_level_pressure",
                 "10m_u_component_of_wind",
                 "10m_v_component_of_wind",
             ]
-        ]
+        ].chunk(-1)
         # Needed to make the dataset CF-compliant.
         ds.time.attrs["standard_name"] = "time"
         ds.longitude.attrs["axis"] = "X"

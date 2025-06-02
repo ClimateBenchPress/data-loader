@@ -34,6 +34,10 @@ class CamsNitrogenDioxideDataset(Dataset):
     @staticmethod
     def open(download_path: Path) -> xr.Dataset:
         ds = xr.open_dataset(download_path / Path(NO2_FILE).name)
+
+        # Restrict data to a single day.
+        # The specific day is arbitrary.
+        ds = ds.sel(valid_time=slice("2023-06-15", "2023-06-15")).chunk(-1)
         # Needed to make the dataset CF-compliant.
         ds.longitude.attrs["axis"] = "X"
         ds.latitude.attrs["axis"] = "Y"

@@ -44,16 +44,19 @@ class NextGemsDataset(Dataset):
             zoom=ZOOM, time=TIME_RESOLUTION, chunks=dict()
         ).to_dask()
 
-        ds = icon[[PRECIP_KEY, OLR_KEY]].sel(time=slice("2020-03-01", "2020-03-07"))
+        # Restrict data to a single day.
+        # The specific day is arbitrary.
+        ds = icon[[PRECIP_KEY, OLR_KEY]].sel(time=slice("2020-03-01", "2020-03-01"))
         # Regrid the data to 0.125 degree resolution.
-        # NOTE: This is using nearest neighbour interpolation. We need to do some
-        #       quality checks to ensure we don't get any significant aliasing
-        #       artifacts as the result of interpolation. For more details:
-        #       https://easy.gems.dkrz.de/Processing/healpix/lonlat_remap.html.
+        # NOTE:
+        # This is using nearest neighbour interpolation. Different interpolation methods
+        # should not have a drastic effect on the intercomparison of different compressors.
+        # However, this should be studied in more detail because re-gridding can often
+        # have unforeseen consequences.
         idx = _get_nn_lon_lat_index(
             2**ZOOM, np.linspace(-180, 180, NUM_LON), np.linspace(-90, 90, NUM_LAT)
         )
-        ds = ds.isel(cell=idx).chunk({"time": 1, "lat": NUM_LAT, "lon": NUM_LON})
+        ds = ds.isel(cell=idx).chunk(-1)
         ds.lon.attrs["axis"] = "X"
         ds.lat.attrs["axis"] = "Y"
 
