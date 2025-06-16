@@ -16,7 +16,7 @@ NUM_RETRIES = 3
 
 # Define rough bounding box coordinates for mainland France.
 # Format: [min_longitude, min_latitude, max_longitude, max_latitude].
-FRANCE_BBOX = [-5.5, 42.3, 9.6, 51.1]
+FRANCE_BBOX = [-2.5, 42.3, 8.6, 49.1]
 
 # Biomass estimate for the year 2020.
 BIOMASS_URL = "https://dap.ceda.ac.uk/neodc/esacci/biomass/data/agb/maps/v5.01/netcdf/ESACCI-BIOMASS-L4-AGB-MERGED-100m-2020-fv5.01.nc"
@@ -47,11 +47,15 @@ class EsaBiomassCciDataset(Dataset):
         # The global snapshot would be around 20 GB, which is too large for our use case.
         # We chose France because it should have a fairly diverse set of biomass estimates
         # but the choice is overall somewhat arbitrary.
-        ds = ds.sel(
-            lon=slice(FRANCE_BBOX[0], FRANCE_BBOX[2]),
-            lat=slice(FRANCE_BBOX[3], FRANCE_BBOX[1]),
-        ).chunk(-1)
-        return ds[["agb"]]
+        ds = (
+            ds[["agb"]]
+            .sel(
+                lon=slice(FRANCE_BBOX[0], FRANCE_BBOX[2]),
+                lat=slice(FRANCE_BBOX[3], FRANCE_BBOX[1]),
+            )
+            .chunk(-1)
+        )
+        return ds
 
 
 if __name__ == "__main__":
