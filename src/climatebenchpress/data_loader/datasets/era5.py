@@ -1,6 +1,7 @@
 __all__ = ["Era5Dataset"]
 
 from pathlib import Path
+import argparse
 
 import xarray as xr
 
@@ -49,8 +50,12 @@ class Era5Dataset(Dataset):
 
 
 if __name__ == "__main__":
-    ds = open_downloaded_canonicalized_dataset(Era5Dataset)
-    open_downloaded_tiny_canonicalized_dataset(Era5Dataset)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--basepath", type=Path, default=Path())
+    args = parser.parse_args()
+
+    ds = open_downloaded_canonicalized_dataset(Era5Dataset, basepath=args.basepath)
+    open_downloaded_tiny_canonicalized_dataset(Era5Dataset, basepath=args.basepath)
 
     for v, da in ds.items():
         print(f"- {v}: {da.dims}")
