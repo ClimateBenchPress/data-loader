@@ -60,7 +60,9 @@ if __name__ == "__main__":
     parser.add_argument("--basepath", type=Path, default=Path())
     args = parser.parse_args()
 
-    ds = open_downloaded_canonicalized_dataset(EsaBiomassCciDataset, basepath=args.basepath)
+    ds = open_downloaded_canonicalized_dataset(
+        EsaBiomassCciDataset, basepath=args.basepath
+    )
     num_lon, num_lat = ds.lon.size, ds.lat.size
     open_downloaded_tiny_canonicalized_dataset(
         EsaBiomassCciDataset,

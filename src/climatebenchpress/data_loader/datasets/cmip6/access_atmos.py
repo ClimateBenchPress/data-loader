@@ -33,8 +33,12 @@ if __name__ == "__main__":
     parser.add_argument("--basepath", type=Path, default=Path())
     args = parser.parse_args()
 
-    ds = open_downloaded_canonicalized_dataset(Cmip6AtmosphereAccessDataset, basepath=args.basepath)
-    open_downloaded_tiny_canonicalized_dataset(Cmip6AtmosphereAccessDataset, basepath=args.basepath)
+    ds = open_downloaded_canonicalized_dataset(
+        Cmip6AtmosphereAccessDataset, basepath=args.basepath
+    )
+    open_downloaded_tiny_canonicalized_dataset(
+        Cmip6AtmosphereAccessDataset, basepath=args.basepath
+    )
 
     for v, da in ds.items():
         print(f"- {v}: {da.dims}")
