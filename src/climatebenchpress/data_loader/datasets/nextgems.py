@@ -1,6 +1,7 @@
 __all__ = ["NextGemsDataset"]
 
 from pathlib import Path
+import argparse
 
 import healpy
 import intake
@@ -94,8 +95,12 @@ def _get_nn_lon_lat_index(nside, lons, lats):
 
 
 if __name__ == "__main__":
-    ds = open_downloaded_canonicalized_dataset(NextGemsDataset)
-    open_downloaded_tiny_canonicalized_dataset(NextGemsDataset)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--basepath", type=Path, default=Path())
+    args = parser.parse_args()
+
+    ds = open_downloaded_canonicalized_dataset(NextGemsDataset, basepath=args.basepath)
+    open_downloaded_tiny_canonicalized_dataset(NextGemsDataset, basepath=args.basepath)
 
     for v, da in ds.items():
         print(f"- {v}: {da.dims}")

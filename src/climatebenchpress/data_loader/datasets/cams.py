@@ -2,6 +2,7 @@ __all__ = ["CamsNitrogenDioxideDataset"]
 
 import logging
 from pathlib import Path
+import argparse
 
 import xarray as xr
 
@@ -46,8 +47,16 @@ class CamsNitrogenDioxideDataset(Dataset):
 
 
 if __name__ == "__main__":
-    ds = open_downloaded_canonicalized_dataset(CamsNitrogenDioxideDataset)
-    open_downloaded_tiny_canonicalized_dataset(CamsNitrogenDioxideDataset)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--basepath", type=Path, default=Path())
+    args = parser.parse_args()
+
+    ds = open_downloaded_canonicalized_dataset(
+        CamsNitrogenDioxideDataset, basepath=args.basepath
+    )
+    open_downloaded_tiny_canonicalized_dataset(
+        CamsNitrogenDioxideDataset, basepath=args.basepath
+    )
 
     for v, da in ds.items():
         print(f"- {v}: {da.dims}")

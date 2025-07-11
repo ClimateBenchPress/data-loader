@@ -2,6 +2,7 @@ __all__ = ["EsaBiomassCciDataset"]
 
 import logging
 from pathlib import Path
+import argparse
 
 import xarray as xr
 
@@ -55,7 +56,13 @@ class EsaBiomassCciDataset(Dataset):
 
 
 if __name__ == "__main__":
-    ds = open_downloaded_canonicalized_dataset(EsaBiomassCciDataset)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--basepath", type=Path, default=Path())
+    args = parser.parse_args()
+
+    ds = open_downloaded_canonicalized_dataset(
+        EsaBiomassCciDataset, basepath=args.basepath
+    )
     num_lon, num_lat = ds.lon.size, ds.lat.size
     open_downloaded_tiny_canonicalized_dataset(
         EsaBiomassCciDataset,
@@ -64,6 +71,7 @@ if __name__ == "__main__":
             "X": slice(num_lon // 2, (num_lon // 2) + 500),
             "Y": slice(num_lat // 2, (num_lat // 2) + 500),
         },
+        basepath=args.basepath,
     )
 
     for v, da in ds.items():
