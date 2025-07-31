@@ -1,10 +1,10 @@
 # ClimateBenchPress Data Loader
 
-This repository contains the code to download the datasets from the ClimateBenchPress compression benchmark. 
+This repository contains the code to download the datasets for the ClimateBenchPress compression benchmark. 
 
 ## Getting Started
 
-This project uses the uv package manager to handle dependencies. If you don't already have it installed follow the instructions at https://docs.astral.sh/uv/getting-started/installation/. 
+This project uses the uv package manager to handle dependencies. If you don't already have it installed follow the instructions at [https://docs.astral.sh/uv/getting-started/installation/](https://docs.astral.sh/uv/getting-started/installation/). 
 
 Next, clone this repository and within the project directory install all the necessary dependencies with:
 ```bash

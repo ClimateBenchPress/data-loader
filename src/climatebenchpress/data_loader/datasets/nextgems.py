@@ -1,7 +1,7 @@
 __all__ = ["NextGemsDataset"]
 
-from pathlib import Path
 import argparse
+from pathlib import Path
 
 import healpy
 import intake
@@ -31,6 +31,15 @@ NUM_LAT = 1440
 
 
 class NextGemsDataset(Dataset):
+    """NextGEMS ICON dataset.
+
+    This dataset provides model output from ICON climate model runs, published as
+    part of the [NextGEMS project](https://nextgems-h2020.eu/).
+
+    See [https://easy.gems.dkrz.de/index.html](https://easy.gems.dkrz.de/index.html)
+    for more details on the NextGEMS data.
+    """
+
     name = "nextgems-icon"
 
     @staticmethod

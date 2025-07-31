@@ -1,8 +1,8 @@
 __all__ = ["CamsNitrogenDioxideDataset"]
 
+import argparse
 import logging
 from pathlib import Path
-import argparse
 
 import xarray as xr
 
@@ -18,6 +18,13 @@ NUM_RETRIES = 3
 
 
 class CamsNitrogenDioxideDataset(Dataset):
+    """Dataset for CAMS Nitrogen Dioxide data.
+
+    The dataset comes from the
+    [Copernicus Atmosphere Monitoring Service (CAMS)](https://atmosphere.copernicus.eu/).
+    This particular class downloads Nitrogen Dioxide reanalysis data.
+    """
+
     name = "cams-nitrogen-dioxide"
 
     @staticmethod

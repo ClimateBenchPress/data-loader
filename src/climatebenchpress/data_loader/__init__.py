@@ -19,6 +19,22 @@ def open_downloaded_canonicalized_dataset(
     basepath: Path = Path(),
     progress: bool = True,
 ) -> xr.Dataset:
+    """Download a given dataset and canonicalize it, i.e. ensure that all the axes names are consistent between different datasets.
+
+    Parameters
+    ----------
+    cls : type[Dataset]
+        The dataset class to download and open
+    basepath : Path, optional
+        The base path where the dataset should be stored, by default Path()
+    progress : bool, optional
+        Whether to show a progress bar during the download, by default True
+
+    Returns
+    -------
+    xr.Dataset
+        The canonicalized dataset as an xarray Dataset
+    """
     datasets = basepath / "datasets"
 
     download = datasets / cls.name / "download"
@@ -46,6 +62,26 @@ def open_downloaded_tiny_canonicalized_dataset(
     progress: bool = True,
     slices: Optional[dict[str, slice]] = None,
 ) -> xr.Dataset:
+    """Same as `open_downloaded_canonicalized_dataset`, but returns a subset of the dataset.
+
+    These tiny datasets are mainly used for testing purposes.
+
+    Parameters
+    ----------
+    cls : type[Dataset]
+        The dataset class to download and open
+    basepath : Path, optional
+        The base path where the dataset should be stored, by default Path()
+    progress : bool, optional
+        Whether to show a progress bar during the download, by default True
+    slices : Optional[dict[str, slice]], optional
+        A dictionary of slices to apply to the dataset, by default None
+
+    Returns
+    -------
+    xr.Dataset
+        The canonicalized tiny dataset as an xarray Dataset
+    """
     datasets = basepath / "datasets"
 
     download = datasets / f"{cls.name}" / "download"

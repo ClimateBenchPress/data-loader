@@ -34,13 +34,14 @@ plugins:
   - exclude:
       glob:
         - requirements.txt
+  - include-markdown
   - search
   - autorefs
   - mkdocstrings-python-generator:
       source_dirs:
         - nav_heading: [Documentation]
           base: src
-          ignore: ["cf.py", "download.py"]
+          ignore: ["cf.py", "download.py", "canon.py", "monitor.py", "all.py"]
   - mkdocstrings:
       enable_inventory: true
       handlers:
@@ -49,7 +50,15 @@ plugins:
             docstring_section_style: list
             docstring_style: numpy
             show_if_no_docstring: true
-            filters: ["!^_$", "!^_[^_]", "!^__", "__init__", "!^cf$", "!^download$"]
+            filters: [
+              "!^_$", 
+              "!^_[^_]", 
+              "!^__", 
+              "__init__", 
+              "!^cf$", 
+              "!^registry$",
+              "!^get_stores$",
+            ]
             members_order: source
             group_by_category: false
             show_source: false

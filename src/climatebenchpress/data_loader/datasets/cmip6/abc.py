@@ -17,6 +17,12 @@ from ..abc import Dataset
 
 
 class Cmip6Dataset(Dataset):
+    """Abstract base class for CMIP6 datasets.
+
+    Defines some shared functionality for downloading and opening CMIP6 datasets.
+    All data is downloaded as Zarr files from the [Google Cloud Platform](https://console.cloud.google.com/marketplace/product/noaa-public/cmip6?inv=1&invt=Ab4N6A).
+    """
+
     model_id: str
     ssp_id: str
     variable_id: str
