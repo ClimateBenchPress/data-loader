@@ -9,7 +9,7 @@ This project uses the uv package manager to handle dependencies. If you don't al
 Next, clone this repository and within the project directory install all the necessary dependencies with:
 ```bash
 uv sync
-uv pip install -e .
+uv pip install -e ".[data]"
 ```
 
 ## Downloading the Data
