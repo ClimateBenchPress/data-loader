@@ -57,19 +57,17 @@
     <ul class="current">
                 <li class="toctree-l3"><a class="reference internal" href="../../">data_loader</a>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" href="../../canon/">canon</a>
-                </li>
                 <li class="toctree-l3 current"><a class="reference internal current" >datasets</a>
     <ul class="current">
                 <li class="toctree-l4"><a class="reference internal" href="../abc/">abc</a>
-                </li>
-                <li class="toctree-l4"><a class="reference internal" href="../all/">all</a>
                 </li>
                 <li class="toctree-l4 current"><a class="reference internal current" href="#">cams</a>
     <ul class="current">
     <li class="toctree-l5"><a class="reference internal" href="#climatebenchpress.data_loader.datasets.cams.CamsNitrogenDioxideDataset">CamsNitrogenDioxideDataset</a>
         <ul>
     <li class="toctree-l6"><a class="reference internal" href="#climatebenchpress.data_loader.datasets.cams.CamsNitrogenDioxideDataset.name">name</a>
+    </li>
+    <li class="toctree-l6"><a class="reference internal" href="#climatebenchpress.data_loader.datasets.cams.CamsNitrogenDioxideDataset.download">download</a>
     </li>
     <li class="toctree-l6"><a class="reference internal" href="#climatebenchpress.data_loader.datasets.cams.CamsNitrogenDioxideDataset.open">open</a>
     </li>
@@ -84,8 +82,6 @@
                 <li class="toctree-l5"><a class="reference internal" href="../cmip6/access_atmos/">access_atmos</a>
                 </li>
                 <li class="toctree-l5"><a class="reference internal" href="../cmip6/access_ocean/">access_ocean</a>
-                </li>
-                <li class="toctree-l5"><a class="reference internal" href="../cmip6/all/">all</a>
                 </li>
                 <li class="toctree-l5"><a class="reference internal" href="../cmip6/canesm5_atmos/">canesm5_atmos</a>
                 </li>
@@ -104,8 +100,6 @@
                 <li class="toctree-l4"><a class="reference internal" href="../nextgems/">nextgems</a>
                 </li>
     </ul>
-                </li>
-                <li class="toctree-l3"><a class="reference internal" href="../../monitor/">monitor</a>
                 </li>
     </ul>
                 </li>
@@ -163,7 +157,7 @@
           <b><code><a class="autorefs autorefs-internal" title="CamsNitrogenDioxideDataset (climatebenchpress.data_loader.datasets.cams.CamsNitrogenDioxideDataset)" href="#climatebenchpress.data_loader.datasets.cams.CamsNitrogenDioxideDataset">CamsNitrogenDioxideDataset</a></code></b>
           –
           <div class="doc-md-description">
-            
+            <p>Dataset for CAMS Nitrogen Dioxide data.</p>
           </div>
         </li>
     </ul>
@@ -233,6 +227,11 @@
               Bases: <code><a class="autorefs autorefs-internal" title="Dataset (climatebenchpress.data_loader.datasets.abc.Dataset)" href="../abc/#climatebenchpress.data_loader.datasets.abc.Dataset">Dataset</a></code></p>
 
 
+        <p>Dataset for CAMS Nitrogen Dioxide data.</p>
+<p>The dataset comes from the
+<a href="https://atmosphere.copernicus.eu/">Copernicus Atmosphere Monitoring Service (CAMS)</a>.
+This particular class downloads Nitrogen Dioxide reanalysis data.</p>
+
 
 
 
@@ -244,6 +243,18 @@
 
 <p><span class="doc-section-title">Methods:</span></p>
     <ul>
+          <li class="doc-section-item field-body">
+            <b><code><a class="autorefs autorefs-internal" title="download
+
+
+  
+      staticmethod
+   (climatebenchpress.data_loader.datasets.cams.CamsNitrogenDioxideDataset.download)" href="#climatebenchpress.data_loader.datasets.cams.CamsNitrogenDioxideDataset.download">download</a></code></b>
+            –
+            <div class="doc-md-description">
+              
+            </div>
+          </li>
           <li class="doc-section-item field-body">
             <b><code><a class="autorefs autorefs-internal" title="open
 
@@ -288,6 +299,33 @@
 </code></pre></div>
 
     <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="climatebenchpress.data_loader.datasets.cams.CamsNitrogenDioxideDataset.download" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">download</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-staticmethod"><code>staticmethod</code></small>
+  </span>
+
+</h3>
+<div class="doc-signature highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>download(download_path: <a class="autorefs autorefs-external" title="pathlib.Path" href="https://docs.python.org/3.12/library/pathlib.html#pathlib.Path">Path</a>, progress: <a class="autorefs autorefs-external" href="https://docs.python.org/3.12/library/functions.html#bool">bool</a> <span style="color: #666">=</span> <span style="color: #008000; font-weight: bold">True</span>)
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
 
     </div>
 

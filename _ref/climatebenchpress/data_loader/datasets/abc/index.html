@@ -57,8 +57,6 @@
     <ul class="current">
                 <li class="toctree-l3"><a class="reference internal" href="../../">data_loader</a>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" href="../../canon/">canon</a>
-                </li>
                 <li class="toctree-l3 current"><a class="reference internal current" >datasets</a>
     <ul class="current">
                 <li class="toctree-l4 current"><a class="reference internal current" href="#">abc</a>
@@ -67,15 +65,13 @@
         <ul>
     <li class="toctree-l6"><a class="reference internal" href="#climatebenchpress.data_loader.datasets.abc.Dataset.name">name</a>
     </li>
-    <li class="toctree-l6"><a class="reference internal" href="#climatebenchpress.data_loader.datasets.abc.Dataset.open">open</a>
+    <li class="toctree-l6"><a class="reference internal" href="#climatebenchpress.data_loader.datasets.abc.Dataset.download">download</a>
     </li>
-    <li class="toctree-l6"><a class="reference internal" href="#climatebenchpress.data_loader.datasets.abc.Dataset.registry">registry</a>
+    <li class="toctree-l6"><a class="reference internal" href="#climatebenchpress.data_loader.datasets.abc.Dataset.open">open</a>
     </li>
         </ul>
     </li>
     </ul>
-                </li>
-                <li class="toctree-l4"><a class="reference internal" href="../all/">all</a>
                 </li>
                 <li class="toctree-l4"><a class="reference internal" href="../cams/">cams</a>
                 </li>
@@ -86,8 +82,6 @@
                 <li class="toctree-l5"><a class="reference internal" href="../cmip6/access_atmos/">access_atmos</a>
                 </li>
                 <li class="toctree-l5"><a class="reference internal" href="../cmip6/access_ocean/">access_ocean</a>
-                </li>
-                <li class="toctree-l5"><a class="reference internal" href="../cmip6/all/">all</a>
                 </li>
                 <li class="toctree-l5"><a class="reference internal" href="../cmip6/canesm5_atmos/">canesm5_atmos</a>
                 </li>
@@ -106,8 +100,6 @@
                 <li class="toctree-l4"><a class="reference internal" href="../nextgems/">nextgems</a>
                 </li>
     </ul>
-                </li>
-                <li class="toctree-l3"><a class="reference internal" href="../../monitor/">monitor</a>
                 </li>
     </ul>
                 </li>
@@ -165,7 +157,7 @@
           <b><code><a class="autorefs autorefs-internal" title="Dataset (climatebenchpress.data_loader.datasets.abc.Dataset)" href="#climatebenchpress.data_loader.datasets.abc.Dataset">Dataset</a></code></b>
           –
           <div class="doc-md-description">
-            
+            <p>Abstract base class for datasets.</p>
           </div>
         </li>
     </ul>
@@ -231,6 +223,13 @@
               Bases: <code><a class="autorefs autorefs-external" title="abc.ABC" href="https://docs.python.org/3.12/library/abc.html#abc.ABC">ABC</a></code></p>
 
 
+        <p>Abstract base class for datasets.</p>
+<p>Each dataset has a unique name associated
+with it that will be used to name the directory where the dataset is stored.</p>
+<p>The dataset should implement the <code>download</code> and <code>open</code> methods to handle downloading
+the dataset (in whatever data format the original data comes) and opening it as an xarray
+Dataset, respectively.</p>
+
 
 
 
@@ -243,6 +242,19 @@
 <p><span class="doc-section-title">Methods:</span></p>
     <ul>
           <li class="doc-section-item field-body">
+            <b><code><a class="autorefs autorefs-internal" title="download
+
+
+  
+      abstractmethod
+      staticmethod
+   (climatebenchpress.data_loader.datasets.abc.Dataset.download)" href="#climatebenchpress.data_loader.datasets.abc.Dataset.download">download</a></code></b>
+            –
+            <div class="doc-md-description">
+              <p>Download the dataset to the specified path. The download function is responsible</p>
+            </div>
+          </li>
+          <li class="doc-section-item field-body">
             <b><code><a class="autorefs autorefs-internal" title="open
 
 
@@ -252,14 +264,7 @@
    (climatebenchpress.data_loader.datasets.abc.Dataset.open)" href="#climatebenchpress.data_loader.datasets.abc.Dataset.open">open</a></code></b>
             –
             <div class="doc-md-description">
-              
-            </div>
-          </li>
-          <li class="doc-section-item field-body">
-            <b><code><a class="autorefs autorefs-internal" title="registry (climatebenchpress.data_loader.datasets.abc.Dataset.registry)" href="#climatebenchpress.data_loader.datasets.abc.Dataset.registry">registry</a></code></b>
-            –
-            <div class="doc-md-description">
-              
+              <p>Open the dataset from the specified path as an xarray Dataset.</p>
             </div>
           </li>
     </ul>
@@ -306,6 +311,73 @@
 <div class="doc doc-object doc-function">
 
 
+<h3 id="climatebenchpress.data_loader.datasets.abc.Dataset.download" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">download</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-abstractmethod"><code>abstractmethod</code></small>
+      <small class="doc doc-label doc-label-staticmethod"><code>staticmethod</code></small>
+  </span>
+
+</h3>
+<div class="doc-signature highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>download(download_path: <a class="autorefs autorefs-external" title="pathlib.Path" href="https://docs.python.org/3.12/library/pathlib.html#pathlib.Path">Path</a>, progress: <a class="autorefs autorefs-external" href="https://docs.python.org/3.12/library/functions.html#bool">bool</a> <span style="color: #666">=</span> <span style="color: #008000; font-weight: bold">True</span>)
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Download the dataset to the specified path. The download function is responsible
+for checking whether the download is complete or not. If the previous download was
+interrupted, it will resume the download. If the download is complete, it will skip
+the download.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>download_path</code></b>
+                  (<code><a class="autorefs autorefs-external" title="pathlib.Path" href="https://docs.python.org/3.12/library/pathlib.html#pathlib.Path">Path</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The path where the dataset should be downloaded to</p>
+              </div>
+            </li>
+            <li>
+              <b><code>progress</code></b>
+                  (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3.12/library/functions.html#bool">bool</a></code>, default:
+                      <code>True</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Whether to show a progress bar during the download, by default True</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
 <h3 id="climatebenchpress.data_loader.datasets.abc.Dataset.open" class="doc doc-heading">
             <span class="doc doc-object-name doc-function-name">open</span>
 
@@ -321,29 +393,55 @@
 
     <div class="doc doc-contents ">
 
-
-    </div>
-
-</div>
+        <p>Open the dataset from the specified path as an xarray Dataset.</p>
 
 
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>download_path</code></b>
+                  (<code><a class="autorefs autorefs-external" title="pathlib.Path" href="https://docs.python.org/3.12/library/pathlib.html#pathlib.Path">Path</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The path where the dataset is stored</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
-
-
-
-<div class="doc doc-object doc-function">
-
-
-<h3 id="climatebenchpress.data_loader.datasets.abc.Dataset.registry" class="doc doc-heading">
-            <span class="doc doc-object-name doc-function-name">registry</span>
-
-
-</h3>
-<div class="doc-signature highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>registry() <span style="color: #666">-&gt;</span> <a class="autorefs autorefs-external" title="collections.abc.Mapping" href="https://docs.python.org/3.12/library/collections.abc.html#collections.abc.Mapping">Mapping</a>
-</code></pre></div>
-
-    <div class="doc doc-contents ">
-
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-external" title="xarray" href="https://docs.xarray.dev/en/v2025.03.0/index.html#module-xarray">xr</a>.<a class="autorefs autorefs-external" title="xarray.Dataset" href="https://docs.xarray.dev/en/v2025.03.0/generated/xarray.Dataset.html#xarray.Dataset">Dataset</a></code>
+              –
+              <div class="doc-md-description">
+                <p>The dataset as an xarray Dataset</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
     </div>
 
@@ -370,7 +468,7 @@
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../all/" class="btn btn-neutral float-right" title="all">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../cams/" class="btn btn-neutral float-right" title="cams">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -394,7 +492,7 @@
     
     
     
-      <span><a href="../all/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../cams/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>

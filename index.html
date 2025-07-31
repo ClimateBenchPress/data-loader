@@ -41,6 +41,12 @@
               <ul class="current">
                 <li class="toctree-l1 current"><a class="reference internal current" href="#">Home</a>
     <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#getting-started">Getting Started</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#downloading-the-data">Downloading the Data</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#funding">Funding</a>
+    </li>
     </ul>
                 </li>
               </ul>
@@ -59,13 +65,9 @@
     <ul>
                 <li class="toctree-l3"><a class="reference internal" href="_ref/climatebenchpress/data_loader/">data_loader</a>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" href="_ref/climatebenchpress/data_loader/canon/">canon</a>
-                </li>
                 <li class="toctree-l3"><a class="reference internal" >datasets</a>
     <ul>
                 <li class="toctree-l4"><a class="reference internal" href="_ref/climatebenchpress/data_loader/datasets/abc/">abc</a>
-                </li>
-                <li class="toctree-l4"><a class="reference internal" href="_ref/climatebenchpress/data_loader/datasets/all/">all</a>
                 </li>
                 <li class="toctree-l4"><a class="reference internal" href="_ref/climatebenchpress/data_loader/datasets/cams/">cams</a>
                 </li>
@@ -76,8 +78,6 @@
                 <li class="toctree-l5"><a class="reference internal" href="_ref/climatebenchpress/data_loader/datasets/cmip6/access_atmos/">access_atmos</a>
                 </li>
                 <li class="toctree-l5"><a class="reference internal" href="_ref/climatebenchpress/data_loader/datasets/cmip6/access_ocean/">access_ocean</a>
-                </li>
-                <li class="toctree-l5"><a class="reference internal" href="_ref/climatebenchpress/data_loader/datasets/cmip6/all/">all</a>
                 </li>
                 <li class="toctree-l5"><a class="reference internal" href="_ref/climatebenchpress/data_loader/datasets/cmip6/canesm5_atmos/">canesm5_atmos</a>
                 </li>
@@ -96,8 +96,6 @@
                 <li class="toctree-l4"><a class="reference internal" href="_ref/climatebenchpress/data_loader/datasets/nextgems/">nextgems</a>
                 </li>
     </ul>
-                </li>
-                <li class="toctree-l3"><a class="reference internal" href="_ref/climatebenchpress/data_loader/monitor/">monitor</a>
                 </li>
     </ul>
                 </li>
@@ -127,7 +125,27 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="data-loader">data-loader</h1>
+                <h1 id="climatebenchpress-data-loader">ClimateBenchPress Data Loader</h1>
+<p>This repository contains the code to download the datasets for the ClimateBenchPress compression benchmark. </p>
+<h2 id="getting-started">Getting Started</h2>
+<p>This project uses the uv package manager to handle dependencies. If you don't already have it installed follow the instructions at <a href="https://docs.astral.sh/uv/getting-started/installation/">https://docs.astral.sh/uv/getting-started/installation/</a>. </p>
+<p>Next, clone this repository and within the project directory install all the necessary dependencies with:
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>uv<span style="color: #BBB"> </span>sync
+uv<span style="color: #BBB"> </span>pip<span style="color: #BBB"> </span>install<span style="color: #BBB"> </span>-e<span style="color: #BBB"> </span>.
+</code></pre></div></p>
+<h2 id="downloading-the-data">Downloading the Data</h2>
+<p>To download all the data used for the benchmark run the following commands:
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>uv<span style="color: #BBB"> </span>run<span style="color: #BBB"> </span>python<span style="color: #BBB"> </span>-m<span style="color: #BBB"> </span>climatebenchpress.data_loader.datasets.esa_biomass_cci
+uv<span style="color: #BBB"> </span>run<span style="color: #BBB"> </span>python<span style="color: #BBB"> </span>-m<span style="color: #BBB"> </span>climatebenchpress.data_loader.datasets.cams
+uv<span style="color: #BBB"> </span>run<span style="color: #BBB"> </span>python<span style="color: #BBB"> </span>-m<span style="color: #BBB"> </span>climatebenchpress.data_loader.datasets.era5
+uv<span style="color: #BBB"> </span>run<span style="color: #BBB"> </span>python<span style="color: #BBB"> </span>-m<span style="color: #BBB"> </span>climatebenchpress.data_loader.datasets.nextgems
+uv<span style="color: #BBB"> </span>run<span style="color: #BBB"> </span>python<span style="color: #BBB"> </span>-m<span style="color: #BBB"> </span>climatebenchpress.data_loader.datasets.cmip6.access_ta
+uv<span style="color: #BBB"> </span>run<span style="color: #BBB"> </span>python<span style="color: #BBB"> </span>-m<span style="color: #BBB"> </span>climatebenchpress.data_loader.datasets.cmip6.access_tos
+</code></pre></div>
+This will download the data into a sub-directory named <code>datasets</code> within this repository. If you want to store the data in a different directory you can use the <code>--basepath=${path/to/dir}</code> command line argument for the scripts which will store the data at <code>${path/to/dir}/datasets</code> instead.</p>
+<h2 id="funding">Funding</h2>
+<p>ClimateBenchPress has been developed as part of <a href="https://embed2scale.eu/">Embed2Scale</a> and <a href="https://www.esiwace.eu/">ESiWACE3</a>.</p>
+<p>Funded by the European Union. This work has received funding from the European High Performance Computing Joint Undertaking (JU) under grant agreement No 101093054 and EU’s Horizon Europe program under grant agreement number 101131841. This work also received funding from <a href="https://www.ukri.org/">UK Research and Innovation (UKRI)</a>.</p>
               
             </div>
           </div><footer>
@@ -179,5 +197,5 @@
 
 <!--
 MkDocs version : 1.6.1
-Build Date UTC : 2025-07-11 15:44:57.333240+00:00
+Build Date UTC : 2025-07-31 14:52:34.687651+00:00
 -->

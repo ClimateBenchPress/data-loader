@@ -63,13 +63,9 @@
     </li>
     </ul>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" href="canon/">canon</a>
-                </li>
                 <li class="toctree-l3"><a class="reference internal" >datasets</a>
     <ul>
                 <li class="toctree-l4"><a class="reference internal" href="datasets/abc/">abc</a>
-                </li>
-                <li class="toctree-l4"><a class="reference internal" href="datasets/all/">all</a>
                 </li>
                 <li class="toctree-l4"><a class="reference internal" href="datasets/cams/">cams</a>
                 </li>
@@ -80,8 +76,6 @@
                 <li class="toctree-l5"><a class="reference internal" href="datasets/cmip6/access_atmos/">access_atmos</a>
                 </li>
                 <li class="toctree-l5"><a class="reference internal" href="datasets/cmip6/access_ocean/">access_ocean</a>
-                </li>
-                <li class="toctree-l5"><a class="reference internal" href="datasets/cmip6/all/">all</a>
                 </li>
                 <li class="toctree-l5"><a class="reference internal" href="datasets/cmip6/canesm5_atmos/">canesm5_atmos</a>
                 </li>
@@ -100,8 +94,6 @@
                 <li class="toctree-l4"><a class="reference internal" href="datasets/nextgems/">nextgems</a>
                 </li>
     </ul>
-                </li>
-                <li class="toctree-l3"><a class="reference internal" href="monitor/">monitor</a>
                 </li>
     </ul>
                 </li>
@@ -167,6 +159,13 @@
           </div>
         </li>
         <li class="doc-section-item field-body">
+          <b><code><span title="climatebenchpress.data_loader.download">download</span></code></b>
+          –
+          <div class="doc-md-description">
+            
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
           <b><code><span title="climatebenchpress.data_loader.monitor">monitor</span></code></b>
           –
           <div class="doc-md-description">
@@ -186,14 +185,14 @@
             <b><code><a class="autorefs autorefs-internal" title="open_downloaded_canonicalized_dataset (climatebenchpress.data_loader.open_downloaded_canonicalized_dataset)" href="#climatebenchpress.data_loader.open_downloaded_canonicalized_dataset">open_downloaded_canonicalized_dataset</a></code></b>
             –
             <div class="doc-md-description">
-              
+              <p>Download a given dataset and canonicalize it, i.e. ensure that all the axes names are consistent between different datasets.</p>
             </div>
           </li>
           <li class="doc-section-item field-body">
             <b><code><a class="autorefs autorefs-internal" title="open_downloaded_tiny_canonicalized_dataset (climatebenchpress.data_loader.open_downloaded_tiny_canonicalized_dataset)" href="#climatebenchpress.data_loader.open_downloaded_tiny_canonicalized_dataset">open_downloaded_tiny_canonicalized_dataset</a></code></b>
             –
             <div class="doc-md-description">
-              
+              <p>Same as <code>open_downloaded_canonicalized_dataset</code>, but returns a subset of the dataset.</p>
             </div>
           </li>
     </ul>
@@ -242,6 +241,75 @@
 
     <div class="doc doc-contents ">
 
+        <p>Download a given dataset and canonicalize it, i.e. ensure that all the axes names are consistent between different datasets.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>cls</code></b>
+                  (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3.12/library/functions.html#type">type</a>[<a class="autorefs autorefs-internal" title="Dataset (climatebenchpress.data_loader.datasets.abc.Dataset)" href="datasets/abc/#climatebenchpress.data_loader.datasets.abc.Dataset">Dataset</a>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>The dataset class to download and open</p>
+              </div>
+            </li>
+            <li>
+              <b><code>basepath</code></b>
+                  (<code><a class="autorefs autorefs-external" title="pathlib.Path" href="https://docs.python.org/3.12/library/pathlib.html#pathlib.Path">Path</a></code>, default:
+                      <code><a class="autorefs autorefs-external" title="pathlib.Path" href="https://docs.python.org/3.12/library/pathlib.html#pathlib.Path">Path</a>()</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>The base path where the dataset should be stored, by default Path()</p>
+              </div>
+            </li>
+            <li>
+              <b><code>progress</code></b>
+                  (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3.12/library/functions.html#bool">bool</a></code>, default:
+                      <code>True</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Whether to show a progress bar during the download, by default True</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-external" title="xarray" href="https://docs.xarray.dev/en/v2025.03.0/index.html#module-xarray">xr</a>.<a class="autorefs autorefs-external" title="xarray.Dataset" href="https://docs.xarray.dev/en/v2025.03.0/generated/xarray.Dataset.html#xarray.Dataset">Dataset</a></code>
+              –
+              <div class="doc-md-description">
+                <p>The canonicalized dataset as an xarray Dataset</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
     </div>
 
@@ -270,10 +338,94 @@
 
     <div class="doc doc-contents ">
 
+        <p>Same as <code>open_downloaded_canonicalized_dataset</code>, but returns a subset of the dataset.</p>
+<p>These tiny datasets are mainly used for testing purposes.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>cls</code></b>
+                  (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3.12/library/functions.html#type">type</a>[<a class="autorefs autorefs-internal" title="Dataset (climatebenchpress.data_loader.datasets.abc.Dataset)" href="datasets/abc/#climatebenchpress.data_loader.datasets.abc.Dataset">Dataset</a>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>The dataset class to download and open</p>
+              </div>
+            </li>
+            <li>
+              <b><code>basepath</code></b>
+                  (<code><a class="autorefs autorefs-external" title="pathlib.Path" href="https://docs.python.org/3.12/library/pathlib.html#pathlib.Path">Path</a></code>, default:
+                      <code><a class="autorefs autorefs-external" title="pathlib.Path" href="https://docs.python.org/3.12/library/pathlib.html#pathlib.Path">Path</a>()</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>The base path where the dataset should be stored, by default Path()</p>
+              </div>
+            </li>
+            <li>
+              <b><code>progress</code></b>
+                  (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3.12/library/functions.html#bool">bool</a></code>, default:
+                      <code>True</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Whether to show a progress bar during the download, by default True</p>
+              </div>
+            </li>
+            <li>
+              <b><code>slices</code></b>
+                  (<code><a class="autorefs autorefs-external" title="typing.Optional" href="https://docs.python.org/3.12/library/typing.html#typing.Optional">Optional</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3.12/library/stdtypes.html#dict">dict</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3.12/library/stdtypes.html#str">str</a>, <a class="autorefs autorefs-external" href="https://docs.python.org/3.12/library/functions.html#slice">slice</a>]]</code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>A dictionary of slices to apply to the dataset, by default None</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-external" title="xarray" href="https://docs.xarray.dev/en/v2025.03.0/index.html#module-xarray">xr</a>.<a class="autorefs autorefs-external" title="xarray.Dataset" href="https://docs.xarray.dev/en/v2025.03.0/generated/xarray.Dataset.html#xarray.Dataset">Dataset</a></code>
+              –
+              <div class="doc-md-description">
+                <p>The canonicalized tiny dataset as an xarray Dataset</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
     </div>
 
 </div>
+
+
+
+
 
 
 
@@ -299,7 +451,7 @@
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="canon/" class="btn btn-neutral float-right" title="canon">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="datasets/abc/" class="btn btn-neutral float-right" title="abc">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -323,7 +475,7 @@
     
     
     
-      <span><a href="canon/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="datasets/abc/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>

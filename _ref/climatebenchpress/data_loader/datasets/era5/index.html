@@ -57,13 +57,9 @@
     <ul class="current">
                 <li class="toctree-l3"><a class="reference internal" href="../../">data_loader</a>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" href="../../canon/">canon</a>
-                </li>
                 <li class="toctree-l3 current"><a class="reference internal current" >datasets</a>
     <ul class="current">
                 <li class="toctree-l4"><a class="reference internal" href="../abc/">abc</a>
-                </li>
-                <li class="toctree-l4"><a class="reference internal" href="../all/">all</a>
                 </li>
                 <li class="toctree-l4"><a class="reference internal" href="../cams/">cams</a>
                 </li>
@@ -74,8 +70,6 @@
                 <li class="toctree-l5"><a class="reference internal" href="../cmip6/access_atmos/">access_atmos</a>
                 </li>
                 <li class="toctree-l5"><a class="reference internal" href="../cmip6/access_ocean/">access_ocean</a>
-                </li>
-                <li class="toctree-l5"><a class="reference internal" href="../cmip6/all/">all</a>
                 </li>
                 <li class="toctree-l5"><a class="reference internal" href="../cmip6/canesm5_atmos/">canesm5_atmos</a>
                 </li>
@@ -93,6 +87,8 @@
         <ul>
     <li class="toctree-l6"><a class="reference internal" href="#climatebenchpress.data_loader.datasets.era5.Era5Dataset.name">name</a>
     </li>
+    <li class="toctree-l6"><a class="reference internal" href="#climatebenchpress.data_loader.datasets.era5.Era5Dataset.download">download</a>
+    </li>
     <li class="toctree-l6"><a class="reference internal" href="#climatebenchpress.data_loader.datasets.era5.Era5Dataset.open">open</a>
     </li>
         </ul>
@@ -104,8 +100,6 @@
                 <li class="toctree-l4"><a class="reference internal" href="../nextgems/">nextgems</a>
                 </li>
     </ul>
-                </li>
-                <li class="toctree-l3"><a class="reference internal" href="../../monitor/">monitor</a>
                 </li>
     </ul>
                 </li>
@@ -163,7 +157,7 @@
           <b><code><a class="autorefs autorefs-internal" title="Era5Dataset (climatebenchpress.data_loader.datasets.era5.Era5Dataset)" href="#climatebenchpress.data_loader.datasets.era5.Era5Dataset">Era5Dataset</a></code></b>
           –
           <div class="doc-md-description">
-            
+            <p>ERA5 reanalysis dataset.</p>
           </div>
         </li>
     </ul>
@@ -229,6 +223,12 @@
               Bases: <code><a class="autorefs autorefs-internal" title="Dataset (climatebenchpress.data_loader.datasets.abc.Dataset)" href="../abc/#climatebenchpress.data_loader.datasets.abc.Dataset">Dataset</a></code></p>
 
 
+        <p>ERA5 reanalysis dataset.</p>
+<p>This dataset accesses the cloud optimized ERA5 reanalysis data published on the
+Google Cloud Platform. See <a href="https://github.com/google-research/arco-era5">https://github.com/google-research/arco-era5</a>
+for more details.</p>
+<p>The original ERA5 dataset is generated and published by <a href="https://www.ecmwf.int/">ECMWF</a>.</p>
+
 
 
 
@@ -240,6 +240,18 @@
 
 <p><span class="doc-section-title">Methods:</span></p>
     <ul>
+          <li class="doc-section-item field-body">
+            <b><code><a class="autorefs autorefs-internal" title="download
+
+
+  
+      staticmethod
+   (climatebenchpress.data_loader.datasets.era5.Era5Dataset.download)" href="#climatebenchpress.data_loader.datasets.era5.Era5Dataset.download">download</a></code></b>
+            –
+            <div class="doc-md-description">
+              
+            </div>
+          </li>
           <li class="doc-section-item field-body">
             <b><code><a class="autorefs autorefs-internal" title="open
 
@@ -284,6 +296,33 @@
 </code></pre></div>
 
     <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="climatebenchpress.data_loader.datasets.era5.Era5Dataset.download" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">download</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-staticmethod"><code>staticmethod</code></small>
+  </span>
+
+</h3>
+<div class="doc-signature highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>download(download_path: <a class="autorefs autorefs-external" title="pathlib.Path" href="https://docs.python.org/3.12/library/pathlib.html#pathlib.Path">Path</a>, progress: <a class="autorefs autorefs-external" href="https://docs.python.org/3.12/library/functions.html#bool">bool</a> <span style="color: #666">=</span> <span style="color: #008000; font-weight: bold">True</span>)
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
 
     </div>
 
