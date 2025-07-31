@@ -1,7 +1,7 @@
 __all__ = ["Era5Dataset"]
 
-from pathlib import Path
 import argparse
+from pathlib import Path
 
 import xarray as xr
 
@@ -16,6 +16,15 @@ ERA5_GCP_PATH = "https://storage.googleapis.com/gcp-public-data-arco-era5/ar/195
 
 
 class Era5Dataset(Dataset):
+    """ERA5 reanalysis dataset.
+
+    This dataset accesses the cloud optimized ERA5 reanalysis data published on the
+    Google Cloud Platform. See [https://github.com/google-research/arco-era5](https://github.com/google-research/arco-era5)
+    for more details.
+
+    The original ERA5 dataset is generated and published by [ECMWF](https://www.ecmwf.int/).
+    """
+
     name = "era5"
 
     @staticmethod

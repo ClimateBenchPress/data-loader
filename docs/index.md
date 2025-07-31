@@ -1,1 +1,3 @@
-# data-loader
+{%
+    include-markdown "../README.md"
+%}

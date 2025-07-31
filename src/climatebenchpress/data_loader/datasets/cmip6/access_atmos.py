@@ -1,7 +1,7 @@
 __all__ = ["Cmip6AtmosphereAccessDataset"]
 
-from pathlib import Path
 import argparse
+from pathlib import Path
 
 from ... import (
     open_downloaded_canonicalized_dataset,
@@ -11,6 +11,8 @@ from .abc import Cmip6AtmosphereDataset, Cmip6Dataset
 
 
 class Cmip6AtmosphereAccessDataset(Cmip6AtmosphereDataset):
+    """Air temperature dataset from the CMIP6 ACCESS-ESM1-5 model under the SSP585 scenario."""
+
     name = "cmip6-access-ta"
 
     model_id = "ACCESS-ESM1-5"

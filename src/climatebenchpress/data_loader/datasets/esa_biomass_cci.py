@@ -1,8 +1,8 @@
 __all__ = ["EsaBiomassCciDataset"]
 
+import argparse
 import logging
 from pathlib import Path
-import argparse
 
 import xarray as xr
 
@@ -24,6 +24,13 @@ BIOMASS_URL = "https://dap.ceda.ac.uk/neodc/esacci/biomass/data/agb/maps/v5.01/n
 
 
 class EsaBiomassCciDataset(Dataset):
+    """ESA Biomass CCI dataset.
+
+    This dataset provides above-ground biomass (AGB) estimates for the year 2020.
+    The data is provided by the European Space Agency's Climate Change Initiative (CCI).
+    For more details see [https://climate.esa.int/en/projects/biomass/](https://climate.esa.int/en/projects/biomass/).
+    """
+
     name = "esa-biomass-cci"
 
     @staticmethod
