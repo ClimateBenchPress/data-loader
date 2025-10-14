@@ -25,7 +25,7 @@ uv run python -m climatebenchpress.data_loader.datasets.cmip6.access_tos
 ```
 This will download the data into a sub-directory named `datasets` within this repository. If you want to store the data in a different directory you can use the `--basepath=${path/to/dir}` command line argument for the scripts which will store the data at `${path/to/dir}/datasets` instead.
 
-## Funding 
+## Funding 
 
 ClimateBenchPress has been developed as part of [Embed2Scale](https://embed2scale.eu/) and [ESiWACE3](https://www.esiwace.eu/).
 
