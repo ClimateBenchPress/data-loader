@@ -136,9 +136,9 @@ def regrid_to_regular(ds, in_grid, out_grid):
             out_data[var].append(r)
 
     dx = out_grid["grid"][0]
-    assert (
-        out_grid["grid"][0] == out_grid["grid"][1]
-    ), "Only grids with equal latitude and longitude spacing are supported."
+    assert out_grid["grid"][0] == out_grid["grid"][1], (
+        "Only grids with equal latitude and longitude spacing are supported."
+    )
     lats = np.linspace(90, -90, int(180 / dx) + 1)
     lons = np.linspace(0, 360 - dx, int(360 / dx))
     coords = {
