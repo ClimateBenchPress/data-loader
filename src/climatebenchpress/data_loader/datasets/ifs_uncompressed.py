@@ -126,19 +126,32 @@ def regrid_to_regular(ds, in_grid, out_grid):
     """
     out_data = {var: [] for var in ds.data_vars}
     for var in ds.data_vars:
+        var_has_level = "level" in ds[var].dims
         for time in ds.time:
-            r = earthkit.regrid.interpolate(
-                ds[var].sel(time=time).values,
-                in_grid=in_grid,
-                out_grid=out_grid,
-                method="linear",
-            )
-            out_data[var].append(r)
+            if var_has_level:
+                level_data = []
+                for level in ds[var].level:
+                    r = earthkit.regrid.interpolate(
+                        ds[var].sel(time=time, level=level).values,
+                        in_grid=in_grid,
+                        out_grid=out_grid,
+                        method="linear",
+                    )
+                    level_data.append(r)
+                out_data[var].append(level_data)
+            else:
+                r = earthkit.regrid.interpolate(
+                    ds[var].sel(time=time).values,
+                    in_grid=in_grid,
+                    out_grid=out_grid,
+                    method="linear",
+                )
+                out_data[var].append(r)
 
     dx = out_grid["grid"][0]
-    assert out_grid["grid"][0] == out_grid["grid"][1], (
-        "Only grids with equal latitude and longitude spacing are supported."
-    )
+    assert (
+        out_grid["grid"][0] == out_grid["grid"][1]
+    ), "Only grids with equal latitude and longitude spacing are supported."
     lats = np.linspace(90, -90, int(180 / dx) + 1)
     lons = np.linspace(0, 360 - dx, int(360 / dx))
     coords = {
@@ -146,13 +159,16 @@ def regrid_to_regular(ds, in_grid, out_grid):
         "latitude": lats,
         "longitude": lons,
     }
-    out_ds = xr.Dataset(
-        {
-            var: (("time", "latitude", "longitude"), out_data[var])
-            for var in ds.data_vars
-        },
-        coords=coords,
-    )
+
+    data_vars = {}
+    for var in ds.data_vars:
+        if "level" in ds[var].dims:
+            coords["level"] = ds[var].level
+            data_vars[var] = (("time", "level", "latitude", "longitude"), out_data[var])
+        else:
+            data_vars[var] = (("time", "latitude", "longitude"), out_data[var])
+
+    out_ds = xr.Dataset(data_vars, coords=coords)
     return out_ds
 
 

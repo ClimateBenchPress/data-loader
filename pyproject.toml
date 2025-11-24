@@ -8,15 +8,9 @@ dependencies = [
     "cf-xarray~=0.10.0",
     "cftime~=1.6.0",
     "dask>=2024.12.0,<2025.4",
-<<<<<<< HEAD
     "earthkit-regrid~=0.5.0",
     "fsspec>=2024.10.0,<2025.4",
     "gribscan~=0.0.14",
-=======
-    "earthkit-regrid>=0.5.0",
-    "fsspec>=2024.10.0,<2025.4",
-    "gribscan>=0.0.14",
->>>>>>> 868ed98 (Add IFS uncompressed data)
     "healpy~=1.18.0",
     # These versions need to be pinned to be compatible with the NextGEMS
     # catalog at https://data.nextgems-h2020.eu/online.yaml.
