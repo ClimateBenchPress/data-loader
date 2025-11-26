@@ -13,7 +13,9 @@ from .. import (
 from ..download import _download_netcdf
 from .abc import Dataset
 
-NO2_FILE = "https://object-store.os-api.cci1.ecmwf.int/esiwacebucket/CAMS/eac4-plev-no2-2023.nc"
+NO2_FILE = (
+    "https://object-store.os-api.cci1.ecmwf.int/esiwacebucket/CAMS_hej6/cams_no2.nc"
+)
 NUM_RETRIES = 3
 
 
@@ -41,15 +43,18 @@ class CamsNitrogenDioxideDataset(Dataset):
 
     @staticmethod
     def open(download_path: Path) -> xr.Dataset:
-        ds = xr.open_dataset(download_path / Path(NO2_FILE).name)
+        ds = xr.open_dataset(download_path / Path(NO2_FILE).name).chunk(-1)
 
-        # Restrict data to a single day.
-        # The specific day is arbitrary.
-        ds = ds.sel(valid_time=slice("2023-06-15", "2023-06-15")).chunk(-1)
+        # valid_time contains actual dates, whereas step is the seconds (in simulated time)
+        # since the model as been initialised.
+        ds = ds.assign_coords(valid_time=("step", ds.valid_time.data))
+        ds = ds.swap_dims({"step": "valid_time"})
+        ds = ds.reset_coords("step", drop=True)
         # Needed to make the dataset CF-compliant.
         ds.longitude.attrs["axis"] = "X"
         ds.latitude.attrs["axis"] = "Y"
-        ds.pressure_level.attrs["axis"] = "Z"
+        ds.hybrid.attrs["axis"] = "Z"
+        ds.valid_time.attrs["axis"] = "T"
         return ds
 
 
