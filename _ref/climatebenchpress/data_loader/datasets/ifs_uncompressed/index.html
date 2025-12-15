@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="shortcut icon" href="../../../../../img/favicon.ico" />
-    <title>abc - climatebenchpress.data-loader</title>
+    <title>ifs_uncompressed - climatebenchpress.data-loader</title>
     <link rel="stylesheet" href="../../../../../css/theme.css" />
     <link rel="stylesheet" href="../../../../../css/theme_extra.css" />
         <link href="../../../../../assets/_mkdocstrings.css" rel="stylesheet" />
@@ -13,8 +13,8 @@
     
       <script>
         // Current page data
-        var mkdocs_page_name = "abc";
-        var mkdocs_page_input_path = "_ref/climatebenchpress/data_loader/datasets/abc.md";
+        var mkdocs_page_name = "ifs_uncompressed";
+        var mkdocs_page_input_path = "_ref/climatebenchpress/data_loader/datasets/ifs_uncompressed.md";
         var mkdocs_page_url = null;
       </script>
     
@@ -59,19 +59,7 @@
                 </li>
                 <li class="toctree-l3 current"><a class="reference internal current" >datasets</a>
     <ul class="current">
-                <li class="toctree-l4 current"><a class="reference internal current" href="#">abc</a>
-    <ul class="current">
-    <li class="toctree-l5"><a class="reference internal" href="#climatebenchpress.data_loader.datasets.abc.Dataset">Dataset</a>
-        <ul>
-    <li class="toctree-l6"><a class="reference internal" href="#climatebenchpress.data_loader.datasets.abc.Dataset.name">name</a>
-    </li>
-    <li class="toctree-l6"><a class="reference internal" href="#climatebenchpress.data_loader.datasets.abc.Dataset.download">download</a>
-    </li>
-    <li class="toctree-l6"><a class="reference internal" href="#climatebenchpress.data_loader.datasets.abc.Dataset.open">open</a>
-    </li>
-        </ul>
-    </li>
-    </ul>
+                <li class="toctree-l4"><a class="reference internal" href="../abc/">abc</a>
                 </li>
                 <li class="toctree-l4"><a class="reference internal" href="../cams/">cams</a>
                 </li>
@@ -97,7 +85,19 @@
                 </li>
                 <li class="toctree-l4"><a class="reference internal" href="../esa_biomass_cci/">esa_biomass_cci</a>
                 </li>
-                <li class="toctree-l4"><a class="reference internal" href="../ifs_uncompressed/">ifs_uncompressed</a>
+                <li class="toctree-l4 current"><a class="reference internal current" href="#">ifs_uncompressed</a>
+    <ul class="current">
+    <li class="toctree-l5"><a class="reference internal" href="#climatebenchpress.data_loader.datasets.ifs_uncompressed.IFSUncompressedDataset">IFSUncompressedDataset</a>
+        <ul>
+    <li class="toctree-l6"><a class="reference internal" href="#climatebenchpress.data_loader.datasets.ifs_uncompressed.IFSUncompressedDataset.name">name</a>
+    </li>
+    <li class="toctree-l6"><a class="reference internal" href="#climatebenchpress.data_loader.datasets.ifs_uncompressed.IFSUncompressedDataset.download">download</a>
+    </li>
+    <li class="toctree-l6"><a class="reference internal" href="#climatebenchpress.data_loader.datasets.ifs_uncompressed.IFSUncompressedDataset.open">open</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
                 </li>
                 <li class="toctree-l4"><a class="reference internal" href="../nextgems/">nextgems</a>
                 </li>
@@ -126,7 +126,7 @@
           <li class="breadcrumb-item">climatebenchpress</li>
           <li class="breadcrumb-item">data_loader</li>
           <li class="breadcrumb-item">datasets</li>
-      <li class="breadcrumb-item active">abc</li>
+      <li class="breadcrumb-item active">ifs_uncompressed</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -135,8 +135,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="abc"><code>abc</code></h1>
-<p><code>climatebenchpress.data_loader.datasets.abc</code></p>
+                <h1 id="ifs_uncompressed"><code>ifs_uncompressed</code></h1>
+<p><code>climatebenchpress.data_loader.datasets.ifs_uncompressed</code></p>
 
 
 <div class="doc doc-object doc-module">
@@ -157,10 +157,10 @@
 <p><span class="doc-section-title">Classes:</span></p>
     <ul>
         <li class="doc-section-item field-body">
-          <b><code><a class="autorefs autorefs-internal" title="Dataset (climatebenchpress.data_loader.datasets.abc.Dataset)" href="#climatebenchpress.data_loader.datasets.abc.Dataset">Dataset</a></code></b>
+          <b><code><a class="autorefs autorefs-internal" title="IFSUncompressedDataset (climatebenchpress.data_loader.datasets.ifs_uncompressed.IFSUncompressedDataset)" href="#climatebenchpress.data_loader.datasets.ifs_uncompressed.IFSUncompressedDataset">IFSUncompressedDataset</a></code></b>
           –
           <div class="doc-md-description">
-            <p>Abstract base class for datasets.</p>
+            <p>Dataset for IFS uncompressed data.</p>
           </div>
         </li>
     </ul>
@@ -210,12 +210,24 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <div class="doc doc-object doc-class">
 
 
 
-<h2 id="climatebenchpress.data_loader.datasets.abc.Dataset" class="doc doc-heading">
-            <span class="doc doc-object-name doc-class-name">Dataset</span>
+<h2 id="climatebenchpress.data_loader.datasets.ifs_uncompressed.IFSUncompressedDataset" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">IFSUncompressedDataset</span>
 
 
 </h2>
@@ -223,16 +235,14 @@
 
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
-              Bases: <code><a class="autorefs autorefs-external" title="abc.ABC" href="https://docs.python.org/3.12/library/abc.html#abc.ABC">ABC</a></code></p>
+              Bases: <code><a class="autorefs autorefs-internal" title="Dataset (climatebenchpress.data_loader.datasets.abc.Dataset)" href="../abc/#climatebenchpress.data_loader.datasets.abc.Dataset">Dataset</a></code></p>
 
 
 
-        <p>Abstract base class for datasets.</p>
-<p>Each dataset has a unique name associated
-with it that will be used to name the directory where the dataset is stored.</p>
-<p>The dataset should implement the <code>download</code> and <code>open</code> methods to handle downloading
-the dataset (in whatever data format the original data comes) and opening it as an xarray
-Dataset, respectively.</p>
+        <p>Dataset for IFS uncompressed data.</p>
+<p>Contains data from the <a href="https://apps.ecmwf.int/ifs-experiments/rd/hplp/">hplp</a>
+experiment from the Integrated Forecasting System (IFS) model. Crucially,
+this dataset contains uncompressed 64-bit floating point data.</p>
 
 
 
@@ -250,12 +260,11 @@ Dataset, respectively.</p>
 
 
   
-      abstractmethod
       staticmethod
-   (climatebenchpress.data_loader.datasets.abc.Dataset.download)" href="#climatebenchpress.data_loader.datasets.abc.Dataset.download">download</a></code></b>
+   (climatebenchpress.data_loader.datasets.ifs_uncompressed.IFSUncompressedDataset.download)" href="#climatebenchpress.data_loader.datasets.ifs_uncompressed.IFSUncompressedDataset.download">download</a></code></b>
             –
             <div class="doc-md-description">
-              <p>Download the dataset to the specified path. The download function is responsible</p>
+              
             </div>
           </li>
           <li class="doc-section-item field-body">
@@ -263,12 +272,11 @@ Dataset, respectively.</p>
 
 
   
-      abstractmethod
       staticmethod
-   (climatebenchpress.data_loader.datasets.abc.Dataset.open)" href="#climatebenchpress.data_loader.datasets.abc.Dataset.open">open</a></code></b>
+   (climatebenchpress.data_loader.datasets.ifs_uncompressed.IFSUncompressedDataset.open)" href="#climatebenchpress.data_loader.datasets.ifs_uncompressed.IFSUncompressedDataset.open">open</a></code></b>
             –
             <div class="doc-md-description">
-              <p>Open the dataset from the specified path as an xarray Dataset.</p>
+              
             </div>
           </li>
     </ul>
@@ -289,16 +297,17 @@ Dataset, respectively.</p>
 
 
 
-<h3 id="climatebenchpress.data_loader.datasets.abc.Dataset.name" class="doc doc-heading">
+<h3 id="climatebenchpress.data_loader.datasets.ifs_uncompressed.IFSUncompressedDataset.name" class="doc doc-heading">
             <span class="doc doc-object-name doc-attribute-name">name</span>
 
 
   <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
       <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
   </span>
 
 </h3>
-<div class="doc-signature highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>name: <a class="autorefs autorefs-external" href="https://docs.python.org/3.12/library/stdtypes.html#str">str</a>
+<div class="doc-signature highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>name <span style="color: #666">=</span> <span style="color: #BA2121">&#39;ifs-uncompressed&#39;</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -315,12 +324,11 @@ Dataset, respectively.</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="climatebenchpress.data_loader.datasets.abc.Dataset.download" class="doc doc-heading">
+<h3 id="climatebenchpress.data_loader.datasets.ifs_uncompressed.IFSUncompressedDataset.download" class="doc doc-heading">
             <span class="doc doc-object-name doc-function-name">download</span>
 
 
   <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-abstractmethod"><code>abstractmethod</code></small>
       <small class="doc doc-label doc-label-staticmethod"><code>staticmethod</code></small>
   </span>
 
@@ -330,45 +338,6 @@ Dataset, respectively.</p>
 
     <div class="doc doc-contents ">
 
-        <p>Download the dataset to the specified path. The download function is responsible
-for checking whether the download is complete or not. If the previous download was
-interrupted, it will resume the download. If the download is complete, it will skip
-the download.</p>
-
-
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Parameters:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
-              <b><code>download_path</code></b>
-                  (<code><a class="autorefs autorefs-external" title="pathlib.Path" href="https://docs.python.org/3.12/library/pathlib.html#pathlib.Path">Path</a></code>)
-              –
-              <div class="doc-md-description">
-                <p>The path where the dataset should be downloaded to</p>
-              </div>
-            </li>
-            <li>
-              <b><code>progress</code></b>
-                  (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3.12/library/functions.html#bool">bool</a></code>, default:
-                      <code>True</code>
-)
-              –
-              <div class="doc-md-description">
-                <p>Whether to show a progress bar during the download, by default True</p>
-              </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>
 
     </div>
 
@@ -382,12 +351,11 @@ the download.</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="climatebenchpress.data_loader.datasets.abc.Dataset.open" class="doc doc-heading">
+<h3 id="climatebenchpress.data_loader.datasets.ifs_uncompressed.IFSUncompressedDataset.open" class="doc doc-heading">
             <span class="doc doc-object-name doc-function-name">open</span>
 
 
   <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-abstractmethod"><code>abstractmethod</code></small>
       <small class="doc doc-label doc-label-staticmethod"><code>staticmethod</code></small>
   </span>
 
@@ -397,55 +365,6 @@ the download.</p>
 
     <div class="doc doc-contents ">
 
-        <p>Open the dataset from the specified path as an xarray Dataset.</p>
-
-
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Parameters:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
-              <b><code>download_path</code></b>
-                  (<code><a class="autorefs autorefs-external" title="pathlib.Path" href="https://docs.python.org/3.12/library/pathlib.html#pathlib.Path">Path</a></code>)
-              –
-              <div class="doc-md-description">
-                <p>The path where the dataset is stored</p>
-              </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Returns:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
-                  <code><a class="autorefs autorefs-external" title="xarray" href="https://docs.xarray.dev/en/v2025.03.0/index.html#module-xarray">xr</a>.<a class="autorefs autorefs-external" title="xarray.Dataset" href="https://docs.xarray.dev/en/v2025.03.0/generated/xarray.Dataset.html#xarray.Dataset">Dataset</a></code>
-              –
-              <div class="doc-md-description">
-                <p>The dataset as an xarray Dataset</p>
-              </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>
 
     </div>
 
@@ -460,6 +379,26 @@ the download.</p>
 
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -473,7 +412,7 @@ the download.</p>
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../cams/" class="btn btn-neutral float-right" title="cams">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../nextgems/" class="btn btn-neutral float-right" title="nextgems">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -497,7 +436,7 @@ the download.</p>
     
     
     
-      <span><a href="../cams/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../nextgems/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>
