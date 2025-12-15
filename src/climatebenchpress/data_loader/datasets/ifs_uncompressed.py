@@ -55,7 +55,7 @@ class IFSUncompressedDataset(Dataset):
 
 
 def load_hplp_data(leveltype=None, gridtype=None, step=None, remap=False):
-    """Function taken from: https://github.com/climet-eu/compression-lab-notebooks/blob/main/04-example-datasets/01-hplp.ipynb."""
+    """Function taken from: https://github.com/climet-eu/compression-lab-notebooks/blob/d297ee98be916359fde16ab36f0f9e0681662df8/04-example-datasets/01-hplp.ipynb."""
     if leveltype not in {"pl", "ml", "sfc", "wave"}:
         raise ValueError(
             f"Invalid leveltype: '{leveltype}'. Available leveltypes: pl, ml, sfc, wave"
