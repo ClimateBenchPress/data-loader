@@ -18,7 +18,7 @@ To download all the data used for the benchmark run the following commands:
 ```bash
 uv run python -m climatebenchpress.data_loader.datasets.esa_biomass_cci
 uv run python -m climatebenchpress.data_loader.datasets.cams
-uv run python -m climatebenchpress.data_loader.datasets.era5
+uv run python -m climatebenchpress.data_loader.datasets.ifs_uncompressed
 uv run python -m climatebenchpress.data_loader.datasets.nextgems
 uv run python -m climatebenchpress.data_loader.datasets.cmip6.access_ta
 uv run python -m climatebenchpress.data_loader.datasets.cmip6.access_tos

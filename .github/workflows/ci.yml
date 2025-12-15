@@ -47,7 +47,7 @@ jobs:
         run: uv python install
 
       - name: Install the package
-        run: uv sync --all-extras --all-groups && uv pip install .
+        run: uv sync --refresh --all-extras --all-groups && uv pip install .
 
       - name: Run tests
         run: uv run pytest
