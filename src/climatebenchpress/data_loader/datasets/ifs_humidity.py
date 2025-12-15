@@ -1,4 +1,4 @@
-__all__ = ["IFSUncompressedDataset"]
+__all__ = ["IFSHumidityDataset"]
 
 import argparse
 from pathlib import Path
@@ -13,8 +13,6 @@ from .. import (
 from .abc import Dataset
 from .ifs_uncompressed import load_hplp_data, regrid_to_regular
 
-BASE_URL = "https://object-store.os-api.cci1.ecmwf.int/esiwacebucket"
-
 
 class IFSHumidityDataset(Dataset):
     """Dataset for the humidity field of the uncompressed IFS data.
@@ -28,6 +26,10 @@ class IFSHumidityDataset(Dataset):
 
     @staticmethod
     def download(download_path: Path, progress: bool = True):
+        donefile = download_path / "download.done"
+        if donefile.exists():
+            return
+
         ds = load_hplp_data(leveltype="ml", gridtype="reduced_gg", step=0)
         ds = ds[["q"]]
         ds_regridded = regrid_to_regular(
@@ -44,6 +46,15 @@ class IFSHumidityDataset(Dataset):
     @staticmethod
     def open(download_path: Path) -> xr.Dataset:
         ds = xr.open_dataset(download_path / "ifs_humidity.zarr")
+        num_levels = ds["level"].size
+        ds = ds.isel(time=slice(0, 1)).chunk(
+            {
+                "latitude": -1,
+                "longitude": -1,
+                "time": -1,
+                "level": (num_levels // 2) + 1,
+            }
+        )
 
         # Needed to make the dataset CF-compliant.
         ds.longitude.attrs["axis"] = "X"
