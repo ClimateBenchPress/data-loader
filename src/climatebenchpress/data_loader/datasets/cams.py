@@ -22,9 +22,9 @@ NUM_RETRIES = 3
 class CamsNitrogenDioxideDataset(Dataset):
     """Dataset for CAMS Nitrogen Dioxide data.
 
-    The dataset comes from the
-    [Copernicus Atmosphere Monitoring Service (CAMS)](https://atmosphere.copernicus.eu/).
-    This particular class downloads Nitrogen Dioxide reanalysis data.
+    Uses data from the CAMS model published at [https://apps.ecmwf.int/ifs-experiments/rd/hej6/].
+    This is output of a run of the CAMS model that is stored in single-precision
+    floating point data without any linear packing.
     """
 
     name = "cams-nitrogen-dioxide"
