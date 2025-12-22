@@ -28,7 +28,6 @@ nav:
   - Home: index.md
   - Links:
       - GitHub: https://github.com/ClimateBenchPress/data-loader/
-      - PyPI: https://pypi.org/project/climatebenchpress-data-loader/
 
 plugins:
   - exclude:
