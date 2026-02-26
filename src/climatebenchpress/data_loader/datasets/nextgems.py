@@ -71,12 +71,12 @@ class NextGemsDataset(Dataset):
         ds.lat.attrs["axis"] = "Y"
 
         with monitor.progress_bar(progress):
-            ds.to_zarr(downloadfile, mode="w", encoding=dict(), compute=False).compute()
+            ds.to_zarr(downloadfile, mode="w", compute=False).compute()
         donefile.touch()
 
     @staticmethod
     def open(download_path: Path) -> xr.Dataset:
-        return xr.open_zarr(download_path / "download.zarr")
+        return xr.open_zarr(download_path / "download.zarr").drop_encoding().chunk(-1)
 
 
 def _get_nn_lon_lat_index(nside, lons, lats):

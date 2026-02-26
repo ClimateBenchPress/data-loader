@@ -40,7 +40,6 @@ class TestDataset(climatebenchpress.data_loader.datasets.abc.Dataset):
             ds.to_zarr(
                 download_path / "download.zarr",
                 mode="w",
-                encoding=dict(),
                 compute=False,
             ).compute()
 

@@ -44,18 +44,18 @@ class Era5Dataset(Dataset):
                 "10m_u_component_of_wind",
                 "10m_v_component_of_wind",
             ]
-        ].chunk(-1)
+        ]
         # Needed to make the dataset CF-compliant.
         ds.time.attrs["standard_name"] = "time"
         ds.longitude.attrs["axis"] = "X"
         ds.latitude.attrs["axis"] = "Y"
         with monitor.progress_bar(progress):
-            ds.to_zarr(downloadfile, mode="w", encoding=dict(), compute=False).compute()
+            ds.to_zarr(downloadfile, mode="w", compute=False).compute()
         donefile.touch()
 
     @staticmethod
     def open(download_path: Path) -> xr.Dataset:
-        return xr.open_zarr(download_path / "download.zarr")
+        return xr.open_zarr(download_path / "download.zarr").drop_encoding().chunk(-1)
 
 
 if __name__ == "__main__":

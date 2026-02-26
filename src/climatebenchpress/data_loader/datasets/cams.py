@@ -43,7 +43,11 @@ class CamsNitrogenDioxideDataset(Dataset):
 
     @staticmethod
     def open(download_path: Path) -> xr.Dataset:
-        ds = xr.open_dataset(download_path / Path(NO2_FILE).name).chunk(-1)
+        ds = (
+            xr.open_dataset(download_path / Path(NO2_FILE).name)
+            .drop_encoding()
+            .chunk(-1)
+        )
 
         # valid_time contains actual dates, whereas step is the seconds (in simulated time)
         # since the model as been initialised.

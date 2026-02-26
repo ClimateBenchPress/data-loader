@@ -39,13 +39,15 @@ class IFSUncompressedDataset(Dataset):
         )
         downloadfile = download_path / "ifs_uncompressed.zarr"
         with monitor.progress_bar(progress):
-            ds_regridded.to_zarr(
-                downloadfile, mode="w", encoding=dict(), compute=False
-            ).compute()
+            ds_regridded.to_zarr(downloadfile, mode="w", compute=False).compute()
 
     @staticmethod
     def open(download_path: Path) -> xr.Dataset:
-        ds = xr.open_dataset(download_path / "ifs_uncompressed.zarr")
+        ds = (
+            xr.open_dataset(download_path / "ifs_uncompressed.zarr")
+            .drop_encoding()
+            .chunk(-1)
+        )
 
         # Needed to make the dataset CF-compliant.
         ds.longitude.attrs["axis"] = "X"
@@ -106,7 +108,11 @@ def load_hplp_data(leveltype=None, gridtype=None, step=None, remap=False):
     return xr.open_dataset(
         "reference://",
         engine="zarr",
-        backend_kwargs=dict(storage_options=dict(fo=ref, asynchronous=False)),
+        backend_kwargs=dict(
+            storage_options=dict(
+                fo=ref, asynchronous=False, remote_options=dict(ssl=False)
+            )
+        ),
         consolidated=False,
     )
 
@@ -149,9 +155,9 @@ def regrid_to_regular(ds, in_grid, out_grid):
                 out_data[var].append(r)
 
     dx = out_grid["grid"][0]
-    assert (
-        out_grid["grid"][0] == out_grid["grid"][1]
-    ), "Only grids with equal latitude and longitude spacing are supported."
+    assert out_grid["grid"][0] == out_grid["grid"][1], (
+        "Only grids with equal latitude and longitude spacing are supported."
+    )
     lats = np.linspace(90, -90, int(180 / dx) + 1)
     lons = np.linspace(0, 360 - dx, int(360 / dx))
     coords = {
