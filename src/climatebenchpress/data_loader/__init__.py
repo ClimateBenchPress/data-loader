@@ -51,7 +51,7 @@ def open_downloaded_canonicalized_dataset(
         ds = canon.canonicalize_dataset(ds)
 
         with monitor.progress_bar(progress):
-            ds.to_zarr(standardized, encoding=dict(), compute=False).compute()
+            ds.to_zarr(standardized, compute=False).compute()
 
     return xr.open_dataset(standardized, chunks=dict(), engine="zarr")
 
@@ -96,20 +96,9 @@ def open_downloaded_tiny_canonicalized_dataset(
         ds = canon.canonical_tiny_dataset(ds, slices=slices)
         # Rechunk the data because "tiny-fication" can lead to inconsistent or
         # suboptimal chunking.
-        ds = _rechunk_dataset(ds)
+        ds = ds.chunk(-1)
 
         with monitor.progress_bar(progress):
-            ds.to_zarr(
-                standardized, encoding=dict(), compute=False, consolidated=True
-            ).compute()
+            ds.to_zarr(standardized, compute=False, consolidated=True).compute()
 
     return xr.open_dataset(standardized, chunks=dict(), engine="zarr")
-
-
-def _rechunk_dataset(ds: xr.Dataset) -> xr.Dataset:
-    rechunked = ds.copy()
-    for var_name in ds.data_vars:
-        if hasattr(ds[var_name].data, "chunks"):
-            rechunked[var_name] = ds[var_name].chunk("auto")
-
-    return rechunked

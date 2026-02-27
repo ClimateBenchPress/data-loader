@@ -39,13 +39,11 @@ class IFSHumidityDataset(Dataset):
         )
         downloadfile = download_path / "ifs_humidity.zarr"
         with monitor.progress_bar(progress):
-            ds_regridded.to_zarr(
-                downloadfile, mode="w", encoding=dict(), compute=False
-            ).compute()
+            ds_regridded.to_zarr(downloadfile, mode="w", compute=False).compute()
 
     @staticmethod
     def open(download_path: Path) -> xr.Dataset:
-        ds = xr.open_dataset(download_path / "ifs_humidity.zarr")
+        ds = xr.open_zarr(download_path / "ifs_humidity.zarr").drop_encoding()
         num_levels = ds["level"].size
         ds = ds.isel(time=slice(0, 1)).chunk(
             {

@@ -47,7 +47,7 @@ class EsaBiomassCciDataset(Dataset):
     @staticmethod
     def open(download_path: Path) -> xr.Dataset:
         # Need string conversion for argument to be interpreted as a glob pattern.
-        ds = xr.open_mfdataset(str(download_path / "*.nc"))
+        ds = xr.open_mfdataset(str(download_path / "*.nc")).drop_encoding()
         # Needed to make the dataset CF-compliant.
         ds.lon.attrs["axis"] = "X"
         ds.lat.attrs["axis"] = "Y"
