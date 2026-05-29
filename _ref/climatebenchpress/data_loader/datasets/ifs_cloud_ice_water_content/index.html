@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="shortcut icon" href="../../../../../img/favicon.ico" />
-    <title>esa_biomass_cci - climatebenchpress.data-loader</title>
+    <title>ifs_cloud_ice_water_content - climatebenchpress.data-loader</title>
     <link rel="stylesheet" href="../../../../../css/theme.css" />
     <link rel="stylesheet" href="../../../../../css/theme_extra.css" />
         <link href="../../../../../assets/_mkdocstrings.css" rel="stylesheet" />
@@ -13,8 +13,8 @@
     
       <script>
         // Current page data
-        var mkdocs_page_name = "esa_biomass_cci";
-        var mkdocs_page_input_path = "_ref/climatebenchpress/data_loader/datasets/esa_biomass_cci.md";
+        var mkdocs_page_name = "ifs_cloud_ice_water_content";
+        var mkdocs_page_input_path = "_ref/climatebenchpress/data_loader/datasets/ifs_cloud_ice_water_content.md";
         var mkdocs_page_url = null;
       </script>
     
@@ -81,21 +81,21 @@
                 </li>
                 <li class="toctree-l4"><a class="reference internal" href="../era5/">era5</a>
                 </li>
-                <li class="toctree-l4 current"><a class="reference internal current" href="#">esa_biomass_cci</a>
+                <li class="toctree-l4"><a class="reference internal" href="../esa_biomass_cci/">esa_biomass_cci</a>
+                </li>
+                <li class="toctree-l4 current"><a class="reference internal current" href="#">ifs_cloud_ice_water_content</a>
     <ul class="current">
-    <li class="toctree-l5"><a class="reference internal" href="#climatebenchpress.data_loader.datasets.esa_biomass_cci.EsaBiomassCciDataset">EsaBiomassCciDataset</a>
+    <li class="toctree-l5"><a class="reference internal" href="#climatebenchpress.data_loader.datasets.ifs_cloud_ice_water_content.IFSCloudIceWaterContentDataset">IFSCloudIceWaterContentDataset</a>
         <ul>
-    <li class="toctree-l6"><a class="reference internal" href="#climatebenchpress.data_loader.datasets.esa_biomass_cci.EsaBiomassCciDataset.name">name</a>
+    <li class="toctree-l6"><a class="reference internal" href="#climatebenchpress.data_loader.datasets.ifs_cloud_ice_water_content.IFSCloudIceWaterContentDataset.name">name</a>
     </li>
-    <li class="toctree-l6"><a class="reference internal" href="#climatebenchpress.data_loader.datasets.esa_biomass_cci.EsaBiomassCciDataset.download">download</a>
+    <li class="toctree-l6"><a class="reference internal" href="#climatebenchpress.data_loader.datasets.ifs_cloud_ice_water_content.IFSCloudIceWaterContentDataset.download">download</a>
     </li>
-    <li class="toctree-l6"><a class="reference internal" href="#climatebenchpress.data_loader.datasets.esa_biomass_cci.EsaBiomassCciDataset.open">open</a>
+    <li class="toctree-l6"><a class="reference internal" href="#climatebenchpress.data_loader.datasets.ifs_cloud_ice_water_content.IFSCloudIceWaterContentDataset.open">open</a>
     </li>
         </ul>
     </li>
     </ul>
-                </li>
-                <li class="toctree-l4"><a class="reference internal" href="../ifs_cloud_ice_water_content/">ifs_cloud_ice_water_content</a>
                 </li>
                 <li class="toctree-l4"><a class="reference internal" href="../ifs_humidity/">ifs_humidity</a>
                 </li>
@@ -128,7 +128,7 @@
           <li class="breadcrumb-item">climatebenchpress</li>
           <li class="breadcrumb-item">data_loader</li>
           <li class="breadcrumb-item">datasets</li>
-      <li class="breadcrumb-item active">esa_biomass_cci</li>
+      <li class="breadcrumb-item active">ifs_cloud_ice_water_content</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -137,8 +137,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="esa_biomass_cci"><code>esa_biomass_cci</code></h1>
-<p><code>climatebenchpress.data_loader.datasets.esa_biomass_cci</code></p>
+                <h1 id="ifs_cloud_ice_water_content"><code>ifs_cloud_ice_water_content</code></h1>
+<p><code>climatebenchpress.data_loader.datasets.ifs_cloud_ice_water_content</code></p>
 
 
 <div class="doc doc-object doc-module">
@@ -159,10 +159,10 @@
 <p><span class="doc-section-title">Classes:</span></p>
     <ul>
         <li class="doc-section-item field-body">
-          <b><code><a class="autorefs autorefs-internal" title="EsaBiomassCciDataset (climatebenchpress.data_loader.datasets.esa_biomass_cci.EsaBiomassCciDataset)" href="#climatebenchpress.data_loader.datasets.esa_biomass_cci.EsaBiomassCciDataset">EsaBiomassCciDataset</a></code></b>
+          <b><code><a class="autorefs autorefs-internal" title="IFSCloudIceWaterContentDataset (climatebenchpress.data_loader.datasets.ifs_cloud_ice_water_content.IFSCloudIceWaterContentDataset)" href="#climatebenchpress.data_loader.datasets.ifs_cloud_ice_water_content.IFSCloudIceWaterContentDataset">IFSCloudIceWaterContentDataset</a></code></b>
           –
           <div class="doc-md-description">
-            <p>ESA Biomass CCI dataset.</p>
+            <p>Dataset for the cloud ice water content field of the uncompressed IFS data.</p>
           </div>
         </li>
     </ul>
@@ -216,16 +216,12 @@
 
 
 
-
-
-
-
 <div class="doc doc-object doc-class">
 
 
 
-<h2 id="climatebenchpress.data_loader.datasets.esa_biomass_cci.EsaBiomassCciDataset" class="doc doc-heading">
-            <span class="doc doc-object-name doc-class-name">EsaBiomassCciDataset</span>
+<h2 id="climatebenchpress.data_loader.datasets.ifs_cloud_ice_water_content.IFSCloudIceWaterContentDataset" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">IFSCloudIceWaterContentDataset</span>
 
 
 </h2>
@@ -237,10 +233,10 @@
 
 
 
-        <p>ESA Biomass CCI dataset.</p>
-<p>This dataset provides above-ground biomass (AGB) estimates for the year 2020.
-The data is provided by the European Space Agency's Climate Change Initiative (CCI).
-For more details see <a href="https://climate.esa.int/en/projects/biomass/">https://climate.esa.int/en/projects/biomass/</a>.</p>
+        <p>Dataset for the cloud ice water content field of the uncompressed IFS data.</p>
+<p>Contains data from the <a href="https://apps.ecmwf.int/ifs-experiments/rd/hplp/">hplp</a>
+experiment from the Integrated Forecasting System (IFS) model. Crucially,
+this dataset contains uncompressed 64-bit floating point data.</p>
 
 
 
@@ -259,7 +255,7 @@ For more details see <a href="https://climate.esa.int/en/projects/biomass/">http
 
   
       staticmethod
-   (climatebenchpress.data_loader.datasets.esa_biomass_cci.EsaBiomassCciDataset.download)" href="#climatebenchpress.data_loader.datasets.esa_biomass_cci.EsaBiomassCciDataset.download">download</a></code></b>
+   (climatebenchpress.data_loader.datasets.ifs_cloud_ice_water_content.IFSCloudIceWaterContentDataset.download)" href="#climatebenchpress.data_loader.datasets.ifs_cloud_ice_water_content.IFSCloudIceWaterContentDataset.download">download</a></code></b>
             –
             <div class="doc-md-description">
               
@@ -271,7 +267,7 @@ For more details see <a href="https://climate.esa.int/en/projects/biomass/">http
 
   
       staticmethod
-   (climatebenchpress.data_loader.datasets.esa_biomass_cci.EsaBiomassCciDataset.open)" href="#climatebenchpress.data_loader.datasets.esa_biomass_cci.EsaBiomassCciDataset.open">open</a></code></b>
+   (climatebenchpress.data_loader.datasets.ifs_cloud_ice_water_content.IFSCloudIceWaterContentDataset.open)" href="#climatebenchpress.data_loader.datasets.ifs_cloud_ice_water_content.IFSCloudIceWaterContentDataset.open">open</a></code></b>
             –
             <div class="doc-md-description">
               
@@ -295,7 +291,7 @@ For more details see <a href="https://climate.esa.int/en/projects/biomass/">http
 
 
 
-<h3 id="climatebenchpress.data_loader.datasets.esa_biomass_cci.EsaBiomassCciDataset.name" class="doc doc-heading">
+<h3 id="climatebenchpress.data_loader.datasets.ifs_cloud_ice_water_content.IFSCloudIceWaterContentDataset.name" class="doc doc-heading">
             <span class="doc doc-object-name doc-attribute-name">name</span>
 
 
@@ -305,7 +301,7 @@ For more details see <a href="https://climate.esa.int/en/projects/biomass/">http
   </span>
 
 </h3>
-<div class="doc-signature highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>name <span style="color: #666">=</span> <span style="color: #BA2121">&#39;esa-biomass-cci&#39;</span>
+<div class="doc-signature highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>name <span style="color: #666">=</span> <span style="color: #BA2121">&#39;ifs-cloud-ice-water-content&#39;</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -322,7 +318,7 @@ For more details see <a href="https://climate.esa.int/en/projects/biomass/">http
 <div class="doc doc-object doc-function">
 
 
-<h3 id="climatebenchpress.data_loader.datasets.esa_biomass_cci.EsaBiomassCciDataset.download" class="doc doc-heading">
+<h3 id="climatebenchpress.data_loader.datasets.ifs_cloud_ice_water_content.IFSCloudIceWaterContentDataset.download" class="doc doc-heading">
             <span class="doc doc-object-name doc-function-name">download</span>
 
 
@@ -349,7 +345,7 @@ For more details see <a href="https://climate.esa.int/en/projects/biomass/">http
 <div class="doc doc-object doc-function">
 
 
-<h3 id="climatebenchpress.data_loader.datasets.esa_biomass_cci.EsaBiomassCciDataset.open" class="doc doc-heading">
+<h3 id="climatebenchpress.data_loader.datasets.ifs_cloud_ice_water_content.IFSCloudIceWaterContentDataset.open" class="doc doc-heading">
             <span class="doc doc-object-name doc-function-name">open</span>
 
 
@@ -402,7 +398,7 @@ For more details see <a href="https://climate.esa.int/en/projects/biomass/">http
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../ifs_cloud_ice_water_content/" class="btn btn-neutral float-right" title="ifs_cloud_ice_water_content">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../ifs_humidity/" class="btn btn-neutral float-right" title="ifs_humidity">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -426,7 +422,7 @@ For more details see <a href="https://climate.esa.int/en/projects/biomass/">http
     
     
     
-      <span><a href="../ifs_cloud_ice_water_content/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../ifs_humidity/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>
