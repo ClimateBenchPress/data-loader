@@ -21,10 +21,19 @@ uv run python -m climatebenchpress.data_loader.datasets.cams
 uv run python -m climatebenchpress.data_loader.datasets.ifs_uncompressed
 uv run python -m climatebenchpress.data_loader.datasets.ifs_humidity
 uv run python -m climatebenchpress.data_loader.datasets.nextgems
-uv run python -m climatebenchpress.data_loader.datasets.cmip6.access_ta
-uv run python -m climatebenchpress.data_loader.datasets.cmip6.access_tos
+uv run python -m climatebenchpress.data_loader.datasets.cmip6.access_atmos
+uv run python -m climatebenchpress.data_loader.datasets.cmip6.access_ocean
 ```
 This will download the data into a sub-directory named `datasets` within this repository. If you want to store the data in a different directory you can use the `--basepath=${path/to/dir}` command line argument for the scripts which will store the data at `${path/to/dir}/datasets` instead.
+
+By default, the already-processed datasets are downloaded from the object store at `s3://esiwacebucket/ClimateBenchPress/`. This is much faster than reprocessing them, and it means that the `[data]` extras are only needed for the reprocessing described below.
+
+### Reprocessing the data
+
+To rebuild a dataset from its original data source instead, pass `--reprocess-data`:
+```bash
+uv run python -m climatebenchpress.data_loader.datasets.cams --reprocess-data
+```
 
 ## Funding 
 

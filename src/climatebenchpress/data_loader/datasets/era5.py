@@ -1,15 +1,11 @@
 __all__ = ["Era5Dataset"]
 
-import argparse
 from pathlib import Path
 
 import xarray as xr
 
-from .. import (
-    monitor,
-    open_downloaded_canonicalized_dataset,
-    open_downloaded_tiny_canonicalized_dataset,
-)
+from .. import monitor
+from ..cli import main
 from .abc import Dataset
 
 ERA5_GCP_PATH = "https://storage.googleapis.com/gcp-public-data-arco-era5/ar/1959-2022-full_37-1h-0p25deg-chunk-1.zarr-v2"
@@ -55,16 +51,9 @@ class Era5Dataset(Dataset):
 
     @staticmethod
     def open(download_path: Path) -> xr.Dataset:
-        return xr.open_zarr(download_path / "download.zarr").drop_encoding().chunk(-1)
+        ds = xr.open_zarr(download_path / "download.zarr").drop_encoding()
+        return ds.chunk(Era5Dataset.chunks(ds))
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--basepath", type=Path, default=Path())
-    args = parser.parse_args()
-
-    ds = open_downloaded_canonicalized_dataset(Era5Dataset, basepath=args.basepath)
-    open_downloaded_tiny_canonicalized_dataset(Era5Dataset, basepath=args.basepath)
-
-    for v, da in ds.items():
-        print(f"- {v}: {da.dims}")
+    main(Era5Dataset)

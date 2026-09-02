@@ -68,7 +68,8 @@ class Cmip6Dataset(Dataset):
 
     @staticmethod
     def open(download_path: Path) -> xr.Dataset:
-        return xr.open_zarr(download_path / "download.zarr").drop_encoding().chunk(-1)
+        ds = xr.open_zarr(download_path / "download.zarr").drop_encoding()
+        return ds.chunk(Cmip6Dataset.chunks(ds))
 
     @lru_cache
     @staticmethod

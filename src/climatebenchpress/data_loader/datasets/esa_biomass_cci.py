@@ -1,15 +1,11 @@
 __all__ = ["EsaBiomassCciDataset"]
 
-import argparse
 import logging
 from pathlib import Path
 
 import xarray as xr
 
-from .. import (
-    open_downloaded_canonicalized_dataset,
-    open_downloaded_tiny_canonicalized_dataset,
-)
+from ..cli import main
 from ..download import _download_netcdf
 from .abc import Dataset
 
@@ -58,28 +54,17 @@ class EsaBiomassCciDataset(Dataset):
         ds = ds.sel(
             lon=slice(FRANCE_BBOX[0], FRANCE_BBOX[2]),
             lat=slice(FRANCE_BBOX[3], FRANCE_BBOX[1]),
-        ).chunk(-1)
+        )
+        ds = ds.chunk(EsaBiomassCciDataset.chunks(ds))
         return ds[["agb"]]
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--basepath", type=Path, default=Path())
-    args = parser.parse_args()
-
-    ds = open_downloaded_canonicalized_dataset(
-        EsaBiomassCciDataset, basepath=args.basepath
-    )
-    num_lon, num_lat = ds.lon.size, ds.lat.size
-    open_downloaded_tiny_canonicalized_dataset(
+    main(
         EsaBiomassCciDataset,
         # Use a smaller spatial subset for the tiny dataset.
-        slices={
-            "X": slice(num_lon // 2, (num_lon // 2) + 500),
-            "Y": slice(num_lat // 2, (num_lat // 2) + 500),
+        tiny_slices=lambda ds: {
+            "X": slice(ds.lon.size // 2, (ds.lon.size // 2) + 500),
+            "Y": slice(ds.lat.size // 2, (ds.lat.size // 2) + 500),
         },
-        basepath=args.basepath,
     )
-
-    for v, da in ds.items():
-        print(f"- {v}: {da.dims}")

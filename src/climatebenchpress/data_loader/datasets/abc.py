@@ -41,6 +41,29 @@ class Dataset(ABC):
         pass
 
     @staticmethod
+    def chunks(ds: xr.Dataset) -> int | Mapping[str, int]:
+        """The chunking that the canonicalized dataset should be stored with.
+
+        The return value is passed to `xarray.Dataset.chunk`. By default, each
+        array is stored as a single chunk.
+
+        This is the single source of truth for the chunking of a dataset: it is
+        applied by `open` and is also used to check whether a pre-processed
+        dataset that was downloaded from the object store is still up to date.
+
+        Parameters
+        ----------
+        ds : xr.Dataset
+            The dataset that is about to be chunked
+
+        Returns
+        -------
+        int | Mapping[str, int]
+            The chunk sizes, either for all dimensions or per dimension
+        """
+        return -1
+
+    @staticmethod
     @abstractmethod
     def open(download_path: Path) -> xr.Dataset:
         """Open the dataset from the specified path as an xarray Dataset.

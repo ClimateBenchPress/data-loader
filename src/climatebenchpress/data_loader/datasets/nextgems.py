@@ -1,6 +1,5 @@
 __all__ = ["NextGemsDataset"]
 
-import argparse
 from pathlib import Path
 
 import healpy
@@ -8,11 +7,8 @@ import intake
 import numpy as np
 import xarray as xr
 
-from .. import (
-    monitor,
-    open_downloaded_canonicalized_dataset,
-    open_downloaded_tiny_canonicalized_dataset,
-)
+from .. import monitor
+from ..cli import main
 from .abc import Dataset
 
 NEXTGEMS_CATALOG = "https://data.nextgems-h2020.eu/online.yaml"
@@ -76,7 +72,8 @@ class NextGemsDataset(Dataset):
 
     @staticmethod
     def open(download_path: Path) -> xr.Dataset:
-        return xr.open_zarr(download_path / "download.zarr").drop_encoding().chunk(-1)
+        ds = xr.open_zarr(download_path / "download.zarr").drop_encoding()
+        return ds.chunk(NextGemsDataset.chunks(ds))
 
 
 def _get_nn_lon_lat_index(nside, lons, lats):
@@ -104,12 +101,4 @@ def _get_nn_lon_lat_index(nside, lons, lats):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--basepath", type=Path, default=Path())
-    args = parser.parse_args()
-
-    ds = open_downloaded_canonicalized_dataset(NextGemsDataset, basepath=args.basepath)
-    open_downloaded_tiny_canonicalized_dataset(NextGemsDataset, basepath=args.basepath)
-
-    for v, da in ds.items():
-        print(f"- {v}: {da.dims}")
+    main(NextGemsDataset)
