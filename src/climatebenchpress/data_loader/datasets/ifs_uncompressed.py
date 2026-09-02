@@ -1,6 +1,5 @@
 __all__ = ["IFSUncompressedDataset"]
 
-import argparse
 from pathlib import Path
 
 import earthkit.regrid
@@ -8,11 +7,8 @@ import numpy as np
 import requests
 import xarray as xr
 
-from .. import (
-    monitor,
-    open_downloaded_canonicalized_dataset,
-    open_downloaded_tiny_canonicalized_dataset,
-)
+from .. import monitor
+from ..cli import main
 from .abc import Dataset
 
 BASE_URL = "https://object-store.os-api.cci1.ecmwf.int/esiwacebucket"
@@ -43,11 +39,8 @@ class IFSUncompressedDataset(Dataset):
 
     @staticmethod
     def open(download_path: Path) -> xr.Dataset:
-        ds = (
-            xr.open_dataset(download_path / "ifs_uncompressed.zarr")
-            .drop_encoding()
-            .chunk(-1)
-        )
+        ds = xr.open_dataset(download_path / "ifs_uncompressed.zarr").drop_encoding()
+        ds = ds.chunk(IFSUncompressedDataset.chunks(ds))
 
         # Needed to make the dataset CF-compliant.
         ds.longitude.attrs["axis"] = "X"
@@ -179,16 +172,4 @@ def regrid_to_regular(ds, in_grid, out_grid):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--basepath", type=Path, default=Path())
-    args = parser.parse_args()
-
-    ds = open_downloaded_canonicalized_dataset(
-        IFSUncompressedDataset, basepath=args.basepath
-    )
-    open_downloaded_tiny_canonicalized_dataset(
-        IFSUncompressedDataset, basepath=args.basepath
-    )
-
-    for v, da in ds.items():
-        print(f"- {v}: {da.dims}")
+    main(IFSUncompressedDataset)

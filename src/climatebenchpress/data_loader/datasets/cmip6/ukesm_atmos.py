@@ -2,10 +2,7 @@ __all__ = ["Cmip6AtmosphereUkEsmDataset"]
 
 from pathlib import Path
 
-from ... import (
-    open_downloaded_canonicalized_dataset,
-    open_downloaded_tiny_canonicalized_dataset,
-)
+from ...cli import main
 from .abc import Cmip6AtmosphereDataset, Cmip6Dataset
 
 
@@ -28,8 +25,4 @@ class Cmip6AtmosphereUkEsmDataset(Cmip6AtmosphereDataset):
 
 
 if __name__ == "__main__":
-    ds = open_downloaded_canonicalized_dataset(Cmip6AtmosphereUkEsmDataset)
-    open_downloaded_tiny_canonicalized_dataset(Cmip6AtmosphereUkEsmDataset)
-
-    for v, da in ds.items():
-        print(f"- {v}: {da.dims}")
+    main(Cmip6AtmosphereUkEsmDataset)

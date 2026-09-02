@@ -40,7 +40,7 @@ plugins:
       source_dirs:
         - nav_heading: [Documentation]
           base: src
-          ignore: ["cf.py", "download.py", "canon.py", "monitor.py", "all.py"]
+          ignore: ["cf.py", "download.py", "canon.py", "monitor.py", "all.py", "s3.py"]
   - mkdocstrings:
       enable_inventory: true
       handlers:

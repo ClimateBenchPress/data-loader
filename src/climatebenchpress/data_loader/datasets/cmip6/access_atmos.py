@@ -1,12 +1,8 @@
 __all__ = ["Cmip6AtmosphereAccessDataset"]
 
-import argparse
 from pathlib import Path
 
-from ... import (
-    open_downloaded_canonicalized_dataset,
-    open_downloaded_tiny_canonicalized_dataset,
-)
+from ...cli import main
 from .abc import Cmip6AtmosphereDataset, Cmip6Dataset
 
 
@@ -31,16 +27,4 @@ class Cmip6AtmosphereAccessDataset(Cmip6AtmosphereDataset):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--basepath", type=Path, default=Path())
-    args = parser.parse_args()
-
-    ds = open_downloaded_canonicalized_dataset(
-        Cmip6AtmosphereAccessDataset, basepath=args.basepath
-    )
-    open_downloaded_tiny_canonicalized_dataset(
-        Cmip6AtmosphereAccessDataset, basepath=args.basepath
-    )
-
-    for v, da in ds.items():
-        print(f"- {v}: {da.dims}")
+    main(Cmip6AtmosphereAccessDataset)

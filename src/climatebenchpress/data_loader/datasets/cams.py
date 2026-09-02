@@ -1,15 +1,11 @@
 __all__ = ["CamsNitrogenDioxideDataset"]
 
-import argparse
 import logging
 from pathlib import Path
 
 import xarray as xr
 
-from .. import (
-    open_downloaded_canonicalized_dataset,
-    open_downloaded_tiny_canonicalized_dataset,
-)
+from ..cli import main
 from ..download import _download_netcdf
 from .abc import Dataset
 
@@ -43,11 +39,8 @@ class CamsNitrogenDioxideDataset(Dataset):
 
     @staticmethod
     def open(download_path: Path) -> xr.Dataset:
-        ds = (
-            xr.open_dataset(download_path / Path(NO2_FILE).name)
-            .drop_encoding()
-            .chunk(-1)
-        )
+        ds = xr.open_dataset(download_path / Path(NO2_FILE).name).drop_encoding()
+        ds = ds.chunk(CamsNitrogenDioxideDataset.chunks(ds))
 
         # valid_time contains actual dates, whereas step is the seconds (in simulated time)
         # since the model as been initialised.
@@ -63,16 +56,4 @@ class CamsNitrogenDioxideDataset(Dataset):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--basepath", type=Path, default=Path())
-    args = parser.parse_args()
-
-    ds = open_downloaded_canonicalized_dataset(
-        CamsNitrogenDioxideDataset, basepath=args.basepath
-    )
-    open_downloaded_tiny_canonicalized_dataset(
-        CamsNitrogenDioxideDataset, basepath=args.basepath
-    )
-
-    for v, da in ds.items():
-        print(f"- {v}: {da.dims}")
+    main(CamsNitrogenDioxideDataset)

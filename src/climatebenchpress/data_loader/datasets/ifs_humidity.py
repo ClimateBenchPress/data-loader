@@ -1,15 +1,12 @@
 __all__ = ["IFSHumidityDataset"]
 
-import argparse
+from collections.abc import Mapping
 from pathlib import Path
 
 import xarray as xr
 
-from .. import (
-    monitor,
-    open_downloaded_canonicalized_dataset,
-    open_downloaded_tiny_canonicalized_dataset,
-)
+from .. import monitor
+from ..cli import main
 from .abc import Dataset
 from .ifs_uncompressed import load_hplp_data, regrid_to_regular
 
@@ -42,17 +39,22 @@ class IFSHumidityDataset(Dataset):
             ds_regridded.to_zarr(downloadfile, mode="w", compute=False).compute()
 
     @staticmethod
+    def chunks(ds: xr.Dataset) -> int | Mapping[str, int]:
+        # Split the vertical levels across two chunks.
+        num_levels = ds["level"].size
+
+        return {
+            "latitude": -1,
+            "longitude": -1,
+            "time": -1,
+            "level": (num_levels // 2) + 1,
+        }
+
+    @staticmethod
     def open(download_path: Path) -> xr.Dataset:
         ds = xr.open_zarr(download_path / "ifs_humidity.zarr").drop_encoding()
-        num_levels = ds["level"].size
-        ds = ds.isel(time=slice(0, 1)).chunk(
-            {
-                "latitude": -1,
-                "longitude": -1,
-                "time": -1,
-                "level": (num_levels // 2) + 1,
-            }
-        )
+        ds = ds.isel(time=slice(0, 1))
+        ds = ds.chunk(IFSHumidityDataset.chunks(ds))
 
         # Needed to make the dataset CF-compliant.
         ds.longitude.attrs["axis"] = "X"
@@ -63,16 +65,4 @@ class IFSHumidityDataset(Dataset):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--basepath", type=Path, default=Path())
-    args = parser.parse_args()
-
-    ds = open_downloaded_canonicalized_dataset(
-        IFSHumidityDataset, basepath=args.basepath
-    )
-    open_downloaded_tiny_canonicalized_dataset(
-        IFSHumidityDataset, basepath=args.basepath
-    )
-
-    for v, da in ds.items():
-        print(f"- {v}: {da.dims}")
+    main(IFSHumidityDataset)

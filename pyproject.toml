@@ -17,6 +17,7 @@ dependencies = [
     "intake==0.7.0",
     "intake-xarray==0.7.0",
     "requests~=2.32.3",
+    "s3fs>=2024.10.0,<2025.4",
     # Setuptools is added to ensure compatibility with intake-xarray version 0.7.0.
     # intake-xarray is relying on distutils which was removed from Python 3.12.
     "setuptools~=75.8.2",
@@ -54,5 +55,5 @@ where = ["src"]
 addopts = ["--import-mode=importlib"]
 
 [[tool.mypy.overrides]]
-module = ["fsspec.*", "intake.*", "healpy.*", "earthkit.*"]
+module = ["fsspec.*", "intake.*", "healpy.*", "earthkit.*", "s3fs.*", "zarr.*"]
 follow_untyped_imports = true
