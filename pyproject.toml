@@ -5,9 +5,32 @@ build-backend = "hatchling.build"
 [project]
 name = "climatebenchpress-data-loader"
 version = "1.0.0"
+requires-python = ">=3.12"
+authors = [
+    { name = "Tim Reichelt", email = "tim.reichelt@physics.ox.ac.uk" },
+    { name = "Juniper Tyree", email = "juniper.tyree@helsinki.fi" },
+]
 description = "Download the datasets for the ClimateBenchPress compression benchmark"
 readme = "README.md"
-requires-python = ">=3.12"
+license = "MPL-2.0"
+keywords = ["climate", "compression", "benchmark", "datasets", "weather"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Scientific/Engineering :: Atmospheric Science",
+    "Topic :: System :: Archiving :: Compression",
+    "Typing :: Typed",
+]
+
 dependencies = [
     "cf-xarray~=0.10.0",
     "cftime~=1.6.0",
