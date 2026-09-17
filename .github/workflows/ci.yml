@@ -12,6 +12,8 @@ jobs:
   check:
     name: Check
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Checkout the Repository
         uses: actions/checkout@v4
@@ -36,6 +38,8 @@ jobs:
   fmt:
     name: Formatting
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Checkout the Repository
         uses: actions/checkout@v4
@@ -73,6 +77,9 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    needs: build
     steps:
       - name: Checkout the Repository
         uses: actions/checkout@v4
@@ -104,6 +111,9 @@ jobs:
   mypy:
     name: Typecheck
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    needs: build
     steps:
       - name: Checkout the Repository
         uses: actions/checkout@v4
