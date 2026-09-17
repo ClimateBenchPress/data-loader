@@ -1,2 +1,5 @@
+[default]
+extend-ignore-identifiers-re = ["Kl\\\"ower"]
+
 [default.extend-identifiers]
 fo = "fo"
