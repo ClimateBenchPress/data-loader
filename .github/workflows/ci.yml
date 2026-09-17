@@ -96,14 +96,11 @@ jobs:
       - name: Install the test dependencies
         run: |
           uv sync --refresh --no-install-workspace \
-            --all-groups \
-            --no-build
+            --all-groups
 
       - name: Install the workspace packages
         run: |
-          uv pip install dist/*.whl \
-            --resolution ${{ matrix.resolution }} \
-            --no-build
+          uv pip install dist/*.whl
 
       - name: Run tests
         run: uv run pytest -v
@@ -134,8 +131,7 @@ jobs:
 
       - name: Install the workspace packages
         run: |
-          uv pip install dist/*.whl \
-            --resolution ${{ matrix.resolution }}
+          uv pip install dist/*.whl
 
       - name: Typecheck the package
         run: uv run mypy -p climatebenchpress.data_loader
