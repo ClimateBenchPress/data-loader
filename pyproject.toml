@@ -1,7 +1,11 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
 [project]
-name = "climatebenchpress.data_loader"
-version = "0.1.0"
-description = "Add your description here"
+name = "climatebenchpress-data-loader"
+version = "1.0.0"
+description = "Download the datasets for the ClimateBenchPress compression benchmark"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
@@ -44,8 +48,8 @@ dev = [
     "universal-pathlib~=0.2.0",
 ]
 
-[tool.setuptools.packages.find]
-where = ["src"]
+[tool.hatch.build.targets.wheel]
+packages = ["src/climatebenchpress"]
 
 [tool.setuptools.package-data]
 "climatebenchpress.compressor" = ["py.typed"]
